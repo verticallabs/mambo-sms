@@ -1,33 +1,31 @@
 module Sms
-	class SubscriberMessagesController < Admin::BaseController
+	class SubscriberMessagesController < ApplicationController
 		respond_to(:html)
 
 		# list messages for subscriber
 		def index
 			@page = params[:page]
 
-			@patient = Weltel::Patient.get!(params[:patient_id])
+			@subscriber = Subscriber.get!(params[:subscriber_id])
 
-			@messages = @patient.subscriber.messages.search(@page, 6)
+			@messages = @subscriber.subscriber.messages.search(@page, 6)
 
-			respond_with(@patient, @messages)
+			respond_with(@subscriber, @messages)
 		end
 
 		# new message form for subscriber
 		def new
-			@patient = Weltel::Patient.get!(params[:patient_id])
+			@subscriber = Subscriber.get!(params[:subscriber_id])
 
-			@message = @patient.subscriber.messages.new
+			@message = @subscriber.subscriber.messages.new
 
-			@message_body_options = message_body_options
-
-			respond_with(@patient, @message)
+			respond_with(@subscriber, @message)
 		end
 
 		# create a new message for subscriber
 		def create
 			begin
-				@patient = Weltel::Patient.get!(params[:patient_id])
+				@subscriber = Subscriber.get!(params[:subscriber_id])
 
 				if params[:message][:body].empty?
 					body = t(params[:message_body])
@@ -35,35 +33,20 @@ module Sms
 					body = params[:message][:body]
 				end
 
-				@message = Message.create_to_subscriber(@patient.subscriber, body)
+				@message = Message.create_to_subscriber(@subscriber.subscriber, body)
 
-				ProjectScope.current.factory.sender.send(@message)
 
 				flash[:notice] = t(:message_created)
 
-				respond_with(@message, :location => admin_weltel_patient_messages_path(@patient))
+				respond_with(@message, :location => admin_weltel_subscriber_messages_path(@subscriber))
 
 			rescue DataMapper::SaveFailureError => error
 				@message = error.resource
-
-				@message_body_options = message_body_options
 
 				respond_with(@message) do |format|
 					format.html { render(:new) }
 				end
 			end
-		end
-
-	private
-		#
-		def message_body_options
-			[
-				[t(:message_ok), :message_ok],
-				[t(:message_not_ok), :message_not_ok],
-				[t(:message_no_response), :message_no_response],
-				[t(:message_no_answer), :message_no_answer],
-				[t(:message_no_answer_again), :message_no_answer_again]
-			]
 		end
 	end
 end

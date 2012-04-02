@@ -1,4 +1,4 @@
-module
-	class SubscriberController
+module Sms
+	class SubscriberController < ApplicationController
 	end
 end
