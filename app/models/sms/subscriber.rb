@@ -13,7 +13,7 @@ module Sms
 		validates_format_of(:phone_number, :with => /^\d*$/)
 
 		# associations
-		has(n, :messages)
+		has(n, :messages, :constraint => :destroy)
 
 		# class methods
 		def self.active

@@ -11,21 +11,22 @@ Gem::Specification.new do |s|
   s.summary     = %q{Mambo SMS}
   s.description = %q{Mambo SMS}
 
-  s.rubyforge_project = "mambo_sms"
+  s.rubyforge_project = "mambo-sms"
 
 	s.files = Dir["{app,config,lib}/**/*"] + ["Rakefile"]
 	s.test_files = Dir["test/**/*"]
-  s.require_paths = Dir["lib/*"]
 
   # specify any dependencies here; for example:
-  SMS_DM_VERSION = "~> 1.2"
-	s.add_runtime_dependency "dm-rails", SMS_DM_VERSION
-	s.add_runtime_dependency "dm-types", SMS_DM_VERSION
-	s.add_runtime_dependency "dm-validations", SMS_DM_VERSION
-	s.add_runtime_dependency "dm-constraints", SMS_DM_VERSION
-	s.add_runtime_dependency "dm-transactions", SMS_DM_VERSION
-	s.add_runtime_dependency "dm-timestamps", SMS_DM_VERSION	
+  s.add_runtime_dependency "rails", Sms::RAILS_VERSION
+	s.add_runtime_dependency "dm-rails", Sms::DM_VERSION
+	s.add_runtime_dependency "dm-types", Sms::DM_VERSION
+	s.add_runtime_dependency "dm-validations", Sms::DM_VERSION
+	s.add_runtime_dependency "dm-migrations", Sms::DM_VERSION
+	s.add_runtime_dependency "dm-constraints", Sms::DM_VERSION
+	s.add_runtime_dependency "dm-transactions", Sms::DM_VERSION
+	s.add_runtime_dependency "dm-timestamps", Sms::DM_VERSION	
 	s.add_runtime_dependency "dm-pager"
+	s.add_runtime_dependency "haml-rails"
 	
 	s.add_development_dependency "rspec-rails"
 end
