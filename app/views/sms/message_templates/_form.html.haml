@@ -1,0 +1,14 @@
+= render({:partial => "shared/errors", :object => @message_template})
+= form_for([@message_template]) do |mt|
+  %fieldset
+    %legend= t(".legend")
+    %ol
+      %li
+        = mt.label(:name)
+        = mt.text_field(:name)
+      %li
+        = mt.label(:body)
+        = mt.text_area(:body, {:size => "41x3", :maxlength => 160})
+  %fieldset
+    = link_to(t(".cancel"), message_templates_path, :class => "button")
+    = mt.submit(t(".commit"), :disable_with => t(".commit_disable"))

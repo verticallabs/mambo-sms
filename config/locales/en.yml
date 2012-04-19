@@ -1,0 +1,18 @@
+en:
+  sms:
+    message_templates:
+      created: "Message Template Created"
+      updated: "Message Template Updated"
+      destroyed: "Message Template Deleted"
+      index:
+        add_link: "Add Message Template..."
+        no_message_templates: "No Message Templates"
+      item:
+        destroy_link: "Delete Message Template"
+        destroy_confirm: "Are you sure you want to delete this Message Template?"
+        destroy_disable: "Deleting Message Template..."
+      form:
+        legend: "Message Template"
+        cancel: "Cancel"
+        commit: "Save Message Template"
+        commit_disable: "Saving Message Template..."

@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
 	s.add_runtime_dependency "dm-timestamps", Sms::DM_VERSION	
 	s.add_runtime_dependency "dm-pager"
 	s.add_runtime_dependency "haml-rails"
+	s.add_runtime_dependency "mambo-authentication"
 	
 	s.add_development_dependency "rspec-rails"
 end

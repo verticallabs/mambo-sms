@@ -1,5 +1,5 @@
 module Sms
-	class MessagesController < ApplicationController
+	class MessagesController < BaseController
 		respond_to(:html, :json, :xml)
 
 		# list messages
