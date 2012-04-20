@@ -1,4 +1,8 @@
 en:
+  helpers:
+    label:
+      message_template:
+        desc: "Description"
   sms:
     message_templates:
       created: "Message Template Created"

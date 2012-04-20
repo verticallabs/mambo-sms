@@ -1,6 +1,6 @@
 = content_tag_for(:li, message_template, :class => "item") do
   %h2= link_to( |
-    "#{message_template.name} - #{message_template.type}", |
+    "#{message_template.desc} - #{message_template.type}", |
     edit_message_template_path(message_template))
   - if message_template.type == :user
     = link_to( |

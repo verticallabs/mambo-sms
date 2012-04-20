@@ -50,6 +50,13 @@ module Sms
 			end
 		end
 
+		#
+		def destroy
+			@message_template = MessageTemplate.destroy_by_id(params[:id])
+			flash[:notice] = t(:destroyed)
+			respond_with(@message_template, :location => message_templates_path)
+		end
+
 	private
 		#
 		def t(key)
