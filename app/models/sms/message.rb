@@ -2,11 +2,17 @@ module Sms
 	class Message
 		include DataMapper::Resource
 
+    # constants
+    STATUSES = [:Unknown, :Received, :Sending, :Sent, :Failed]
+    PHONE_NUMBER_LENGTH = 10
+    MESSAGE_LENGTH = 160
+    SID_LENGTH = 34
+
 		# properties
 		property(:id, Serial)
-		property(:status, Enum[:Unknown, :Received, :Sending, :Sent, :Failed], :index => true)
-		property(:phone_number, String, {:required => true, :index => true, :length => 10})
-		property(:body, String, :length => 160)
+		property(:status, Enum[*STATUSES], :index => true)
+		property(:phone_number, String, {:required => true, :index => true, :length => PHONE_NUMBER_LENGTH})
+		property(:body, String, :length => MESSAGE_LENGTH)
 		property(:sid, String, :length => 34)
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
