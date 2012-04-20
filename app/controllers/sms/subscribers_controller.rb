@@ -1,4 +1,4 @@
 module Sms
-	class SubscriberController < ApplicationController
+	class SubscriberController < BaseController
 	end
 end
