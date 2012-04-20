@@ -2,21 +2,26 @@ module Sms
 	class Message
 		include DataMapper::Resource
 
+    # constants
+    STATUSES = [:Unknown, :Received, :Sending, :Sent, :Failed]
+    MESSAGE_LENGTH = 160
+    SID_LENGTH = 34
+
 		# properties
 		property(:id, Serial)
-		property(:status, Enum[:Unknown, :Received, :Sending, :Sent, :Failed], :index => true)
-		property(:phone_number, String, {:required => true, :index => true, :length => 10})
-		property(:body, String, :length => 160)
-		property(:sid, String, :length => 34)
+		property(:status, Enum[*STATUSES], :index => true)
+		property(:phone_number, String, {:required => true, :index => true, :length => Sms::Subscriber::PHONE_NUMBER_LENGTH})
+		property(:body, String, :length => MESSAGE_LENGTH)
+		property(:sid, String, :length => SID_LENGTH)
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:phone_number, :is => 10)
+		validates_length_of(:phone_number, :is => Sms::Subscriber::PHONE_NUMBER_LENGTH)
 		validates_format_of(:phone_number, :with => /^\d*$/)
 
 		validates_presence_of(:body)
-		validates_length_of(:body, :max => 160)
+		validates_length_of(:body, :max => MESSAGE_LENGTH)
 
 		# associations
 		belongs_to(:subscriber, "Subscriber", :required => false)
