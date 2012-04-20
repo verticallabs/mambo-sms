@@ -13,7 +13,7 @@ module Sms
 		property(:status, Enum[*STATUSES], :index => true)
 		property(:phone_number, String, {:required => true, :index => true, :length => PHONE_NUMBER_LENGTH})
 		property(:body, String, :length => MESSAGE_LENGTH)
-		property(:sid, String, :length => 34)
+		property(:sid, String, :length => SID_LENGTH)
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
