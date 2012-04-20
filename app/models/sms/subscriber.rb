@@ -2,18 +2,15 @@ module Sms
 	class Subscriber
 		include DataMapper::Resource
 
-    # constants
-    PHONE_NUMBER_LENGTH = 10
-
     # properties
 		property(:id, Serial)
-		property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH })
+		property(:phone_number, String, {:required=> true, :unique => true, :length => Sms::PHONE_NUMBER_LENGTH })
 		property(:active, Boolean, {:required => true, :default => true, :index => true})
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:phone_number, :is => PHONE_NUMBER_LENGTH)
+		validates_length_of(:phone_number, :is => Sms::PHONE_NUMBER_LENGTH)
 		validates_format_of(:phone_number, :with => /^\d*$/)
 
 		# associations

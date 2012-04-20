@@ -7,7 +7,7 @@ describe Sms::Message do
 
   before(:each) do
     Sms::Subscriber.all.destroy
-    Sms::Message.all.destroy 
+    Sms::Message.all.destroy
   end
 
   it 'is invalid when new' do
@@ -23,19 +23,19 @@ describe Sms::Message do
   end
 
   it 'is invalid with body too long' do
-    m = Sms::Message.new(@valid_attributes.merge(:body => Randomizer.string(Sms::Message::MESSAGE_LENGTH + 1)))
+    m = Sms::Message.new(@valid_attributes.merge(:body => Randomizer.string(Sms::MESSAGE_LENGTH + 1)))
 
     m.should_not be_valid
   end
 
   it 'is invalid with phone number too long' do
-    m = Sms::Message.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::Subscriber::PHONE_NUMBER_LENGTH + 1)))
+    m = Sms::Message.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::PHONE_NUMBER_LENGTH + 1)))
 
     m.should_not be_valid
   end
 
   it 'is invalid with phone number too short' do
-    m = Sms::Message.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::Subscriber::PHONE_NUMBER_LENGTH - 1)))
+    m = Sms::Message.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::PHONE_NUMBER_LENGTH - 1)))
 
     m.should_not be_valid
   end
@@ -67,14 +67,14 @@ describe Sms::Message do
 
   it 'should be able to be updated by id' do
     m = FactoryGirl.create(:message)
-    new_status = Sms::Message::STATUSES.reject{|s| s == m.status}.first
+    new_status = Sms::STATUSES.reject{|s| s == m.status}.first
     new_sid = 'test'
 
     Sms::Message.update_status_by_id(m.id, new_status, new_sid)
     m.reload
 
     m.status.should == new_status
-    m.sid.should == new_sid 
+    m.sid.should == new_sid
   end
 
   it 'should create a message to send to phone number properly' do

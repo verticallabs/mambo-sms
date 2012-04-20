@@ -7,7 +7,7 @@ describe Sms::Subscriber do
 
   before(:each) do
     Sms::Subscriber.all.destroy
-    Sms::Message.all.destroy 
+    Sms::Message.all.destroy
   end
 
   it 'is invalid when new' do
@@ -23,13 +23,13 @@ describe Sms::Subscriber do
   end
 
   it 'is invalid with phone number too long' do
-    s = Sms::Subscriber.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::Subscriber::PHONE_NUMBER_LENGTH + 1)))
+    s = Sms::Subscriber.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::PHONE_NUMBER_LENGTH + 1)))
 
     s.should_not be_valid
   end
 
   it 'is invalid with phone number too short' do
-    s = Sms::Subscriber.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::Subscriber::PHONE_NUMBER_LENGTH - 1)))
+    s = Sms::Subscriber.new(@valid_attributes.merge(:phone_number => Randomizer.integer(Sms::PHONE_NUMBER_LENGTH - 1)))
 
     s.should_not be_valid
   end
