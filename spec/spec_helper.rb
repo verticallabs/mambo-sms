@@ -22,15 +22,18 @@ require 'rspec/autorun'
 gem_root = File.join(File.dirname(__FILE__), '..')
 $:.push File.expand_path(File.join(gem_root, 'app', 'models'))
 require 'sms'
-require 'sms/message'
 require 'sms/subscriber'
+require 'sms/message'
 require 'active_support'
 Dir[File.join(gem_root, 'spec', 'support', '**', '*.rb')].each {|f| require f}
 
 #factory_girl
 FactoryGirl.find_definitions
 
+#datamapper
 DataMapper.finalize
+DataMapper.setup(:default, 'sqlite::memory:')
+DataMapper.auto_migrate!
 
 #configure
 RSpec.configure do |config|
