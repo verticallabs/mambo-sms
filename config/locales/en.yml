@@ -12,9 +12,9 @@ en:
         add_link: "Add Message Template..."
         no_message_templates: "No Message Templates"
       item:
-        destroy_link: "Delete Message Template"
+        destroy_link: "Delete"
         destroy_confirm: "Are you sure you want to delete this Message Template?"
-        destroy_disable: "Deleting Message Template..."
+        destroy_disable: "Deleting..."
       form:
         legend: "Message Template"
         cancel: "Cancel"
