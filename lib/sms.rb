@@ -13,7 +13,10 @@ require "dm-pager"
 module Sms
 	# constants
 	PHONE_NUMBER_LENGTH = 10
-	STATUSES = [:Unknown, :Received, :Sending, :Sent, :Failed]
+	STATUSES = [:Unknown, :Received, :Sending, :Sent, :Failed, :Read]
 	MESSAGE_LENGTH = 160
 	SID_LENGTH = 34
+	NAME_LENGTH = 64
+	DESC_LENGTH = 64
+	MESSAGE_TEMPLATE_TYPES = [:User, :System]
 end

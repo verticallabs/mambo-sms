@@ -4,28 +4,28 @@ module Sms
 
 		# properties
 		property(:id, Serial)
-		property(:name, String, {:unique => true, :length => 64})
-		property(:desc, String, {:required => true, :unique => true, :length => 64})
-		property(:body, String, {:required => true, :length => 160})
-		property(:type, Enum[:user, :system], {:required => true, :default => :user})
+		property(:name, String, {:unique => true, :length => NAME_LENGTH})
+		property(:desc, String, {:required => true, :unique => true, :length => DESC_LENGTH})
+		property(:body, String, {:required => true, :length => MESSAGE_LENGTH})
+		property(:type, Enum[*MESSAGE_TEMPLATE_TYPES], {:required => true, :default => :user})
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:name, :within => 2..32, :allow_nil => true)
+		validates_length_of(:name, :within => 2..NAME_LENGTH, :allow_nil => true)
 		validates_format_of(:name, :with => /^[\w_]*$/, :allow_nil => true)
 
-		validates_length_of(:desc, :within => 2..32)
+		validates_length_of(:desc, :within => 2..DESC_LENGTH)
 		validates_format_of(:desc, :with => /^[\w ]*$/)
 
 		#
 		def self.user
-			all(:type => :user)
+			all(:type => :User)
 		end
 
 		#
 		def self.system
-			all(:type => :system)
+			all(:type => :System)
 		end
 
 		def self.get_by_name(name)

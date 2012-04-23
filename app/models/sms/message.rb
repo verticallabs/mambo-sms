@@ -5,18 +5,18 @@ module Sms
 		# properties
 		property(:id, Serial)
 		property(:status, Enum[*STATUSES], :index => true)
-		property(:phone_number, String, {:required => true, :index => true, :length => Sms::PHONE_NUMBER_LENGTH})
-		property(:body, String, :length => Sms::MESSAGE_LENGTH)
-		property(:sid, String, :length => Sms::SID_LENGTH)
+		property(:phone_number, String, {:required => true, :index => true, :length => PHONE_NUMBER_LENGTH})
+		property(:body, String, :length => MESSAGE_LENGTH)
+		property(:sid, String, :length => SID_LENGTH)
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:phone_number, :is => Sms::PHONE_NUMBER_LENGTH)
+		validates_length_of(:phone_number, :is => PHONE_NUMBER_LENGTH)
 		validates_format_of(:phone_number, :with => /^\d*$/)
 
 		validates_presence_of(:body)
-		validates_length_of(:body, :max => Sms::MESSAGE_LENGTH)
+		validates_length_of(:body, :max => MESSAGE_LENGTH)
 
 		# associations
 		belongs_to(:subscriber, "Subscriber", :required => false)
@@ -27,6 +27,11 @@ module Sms
 		#
 		def self.sent
 			all(:status => :Sent)
+		end
+
+		#
+		def self.received
+			all(:status => :Received)
 		end
 
 		# search
