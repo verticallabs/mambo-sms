@@ -24,6 +24,7 @@ $:.push File.expand_path(File.join(gem_root, 'app', 'models'))
 require 'sms'
 require 'sms/subscriber'
 require 'sms/message'
+require 'sms/message_template'
 require 'active_support'
 Dir[File.join(gem_root, 'spec', 'support', '**', '*.rb')].each {|f| require f}
 
@@ -43,6 +44,12 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
+
+  config.before(:each) do
+    Sms::Subscriber.all.destroy
+    Sms::Message.all.destroy
+    Sms::MessageTemplate.all.destroy
+  end
 end
 
 RSpec::Matchers.define :be_valid do

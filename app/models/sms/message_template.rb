@@ -4,18 +4,18 @@ module Sms
 
 		# properties
 		property(:id, Serial)
-		property(:name, String, {:unique => true, :length => NAME_LENGTH})
-		property(:desc, String, {:required => true, :unique => true, :length => DESC_LENGTH})
+		property(:name, String, {:unique => true, :length => TEMPLATE_NAME_LENGTH})
+		property(:desc, String, {:required => true, :unique => true, :length => TEMPLATE_DESC_LENGTH})
 		property(:body, String, {:required => true, :length => MESSAGE_LENGTH})
 		property(:type, Enum[*MESSAGE_TEMPLATE_TYPES], {:required => true, :default => :User})
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:name, :within => 2..NAME_LENGTH, :allow_nil => true)
+		validates_length_of(:name, :within => 2..TEMPLATE_NAME_LENGTH, :allow_nil => true)
 		validates_format_of(:name, :with => /^[\w_]*$/, :allow_nil => true)
 
-		validates_length_of(:desc, :within => 2..DESC_LENGTH)
+		validates_length_of(:desc, :within => 2..TEMPLATE_DESC_LENGTH)
 		validates_format_of(:desc, :with => /^[\w ]*$/)
 
 		#

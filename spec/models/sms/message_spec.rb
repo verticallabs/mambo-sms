@@ -5,11 +5,6 @@ describe Sms::Message do
     @valid_attributes = FactoryGirl.build(:message).attributes
   end
 
-  before(:each) do
-    Sms::Subscriber.all.destroy
-    Sms::Message.all.destroy
-  end
-
   it 'is invalid when new' do
     m = Sms::Message.new
 

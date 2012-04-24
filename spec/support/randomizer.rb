@@ -10,4 +10,8 @@ module Randomizer
   def self.boolean
     Kernel.rand(1) == 1
   end
+
+  def self.enum(enum)
+    enum[Kernel.rand(enum.length)]
+  end
 end
