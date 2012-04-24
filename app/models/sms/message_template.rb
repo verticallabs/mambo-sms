@@ -7,7 +7,7 @@ module Sms
 		property(:name, String, {:unique => true, :length => NAME_LENGTH})
 		property(:desc, String, {:required => true, :unique => true, :length => DESC_LENGTH})
 		property(:body, String, {:required => true, :length => MESSAGE_LENGTH})
-		property(:type, Enum[*MESSAGE_TEMPLATE_TYPES], {:required => true, :default => :user})
+		property(:type, Enum[*MESSAGE_TEMPLATE_TYPES], {:required => true, :default => :User})
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
