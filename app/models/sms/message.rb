@@ -36,7 +36,7 @@ module Sms
 
 		# search
 		def self.search(page, per_page)
-			page(page, {:per_page => per_page, :order => [:updated_at.desc]})
+			page(:page => page, :per_page => per_page, :order => [:created_at.desc])
 		end
 
 		# receive a message
