@@ -1,6 +1,6 @@
 module Sms
 	class MessageTemplatesController < BaseController
-		include Authentication::AuthenticatedController
+		include ::Authentication::AuthenticatedController
 		respond_to(:html)
 		layout("layouts/private/sms")
 

@@ -1,4 +1,4 @@
 module Sms
-	class BaseController < ActionController::Base
+	class BaseController < ::ActionController::Base
 	end
 end
