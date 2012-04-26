@@ -1,5 +1,5 @@
 module Sms
-  class Engine < Rails::Engine
+  class Engine < ::Rails::Engine
     isolate_namespace Sms
 
 		#

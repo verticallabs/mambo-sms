@@ -14,4 +14,8 @@ module Randomizer
   def self.enum(enum)
     enum[Kernel.rand(enum.length)]
   end
+
+  def self.password(length)
+    Digest::SHA1.hexdigest(self.string(length))
+  end
 end

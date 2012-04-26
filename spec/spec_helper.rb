@@ -1,65 +1,40 @@
-ENV["RAILS_ENV"] ||= 'test'
-
-#boot.rb
 require 'rubygems'
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
-require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
+require 'bundler'
 
-#application.rb
-require 'action_controller/railtie'
-#require 'dm-rails/railtie'
-#require 'sprockets/railtie'
-#require 'action_mailer/railtie'
-#require 'active_resource/railtie'
-#require 'rails/test_unit/railtie'
-Bundler.require(*Rails.groups(:assets => %w(development test))) if defined?(Bundler)
+require 'rails'
+Bundler.require(:default, :development, :assets) if defined?(Bundler)
 
-#rspec
-require 'rspec/rails'
-require 'rspec/autorun'
+$:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../app", __FILE__)
 
-#gem specific
-gem_root = File.join(File.dirname(__FILE__), '..')
-$:.push File.expand_path(File.join(gem_root, 'app', 'models'))
-require 'sms'
-require 'sms/subscriber'
-require 'sms/message'
-require 'sms/message_template'
-require 'active_support'
-Dir[File.join(gem_root, 'spec', 'support', '**', '*.rb')].each {|f| require f}
+require 'mambo-sms'
+require 'mambo-authentication'
 
-#factory_girl
-FactoryGirl.find_definitions
+# combustion
+require 'haml-rails'
+Combustion.initialize!(:action_controller, :action_view, :action_mailer, :sprockets, :active_support)
 
-#datamapper
+# datamapper
 DataMapper.finalize
 DataMapper.setup(:default, 'sqlite::memory:')
+DataMapper.setup(:in_memory, 'sqlite::memory:')
 DataMapper.auto_migrate!
 
-#configure
+# factory_girl
+require 'sms/support/factories' 
+
+# engine routing
+require 'mambo/support/engine_router'
+Sms::Engine.load_engine_routes
+
+require 'rspec/rails'
+
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
-
-  config.infer_base_class_for_anonymous_controllers = false
-  config.treat_symbols_as_metadata_keys_with_true_values = true
-  config.run_all_when_everything_filtered = true
-  config.filter_run :focus
-
   config.before(:each) do
     Sms::Subscriber.all.destroy
     Sms::Message.all.destroy
     Sms::MessageTemplate.all.destroy
   end
-end
 
-RSpec::Matchers.define :be_valid do
-  match(&:valid?)
-
-  failure_message_for_should do |record|
-    "expected #{record.class} #{record.to_param} to be valid, but got the following errors:\n#{formatted_errors(record)}"
-  end
-
-  def formatted_errors(record)
-    record.errors.full_messages.join("\n")
-  end
+  config.include FactoryGirl::Syntax::Methods
 end
