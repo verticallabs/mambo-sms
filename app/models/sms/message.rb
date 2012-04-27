@@ -45,13 +45,13 @@ module Sms
 		end
 
 		# receive a message
-		def self.receive_from_phone_number(phone_number, body, sid)
+		def self.receive_from_phone_number(phone_number, body, sid, date = nil)
 			subscriber = Subscriber.first_by_phone_number(phone_number)
 
 			if subscriber.nil?
-				new_from_phone_number(phone_number, body, sid)
+				new_from_phone_number(phone_number, body, sid, date)
 			else
-				new_from_subscriber(subscriber, body, sid)
+				new_from_subscriber(subscriber, body, sid, date)
 			end
 		end
 
@@ -96,22 +96,24 @@ module Sms
 		end
 
 		# create message from phone number
-		def self.new_from_phone_number(phone_number, body, sid)
+		def self.new_from_phone_number(phone_number, body, sid, date)
 			message = Message.new
 			message.phone_number = phone_number
 			message.body = body
 			message.status = :Received
 			message.sid = sid
+			message.created_at = date
 			message
 		end
 
 		# create message from subscriber with body and sid
-		def self.new_from_subscriber(subscriber, body, sid)
+		def self.new_from_subscriber(subscriber, body, sid, date)
 			message = subscriber.messages.new
 			message.phone_number = subscriber.phone_number
 			message.body = body
 			message.status = :Received
 			message.sid = sid
+			message.created_at = date
 			message
 		end
 	end
