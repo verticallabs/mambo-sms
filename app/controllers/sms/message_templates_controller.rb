@@ -8,11 +8,13 @@ module Sms
 		def index
 			@page = params[:page]
 			@message_templates = MessageTemplate.all.page(:page => @page, :per_page => 6, :order => :id)
+			respond_with(@message_templates)
 		end
 
 		#
 		def new
 			@message_template = MessageTemplate.new
+			respond_with(@message_template)
 		end
 
 		#
@@ -33,6 +35,7 @@ module Sms
 		#
 		def edit
 			@message_template = MessageTemplate.get!(params[:id])
+			respond_with(@message_template)
 		end
 
 		#
