@@ -33,11 +33,11 @@ require 'sms/support/factories'
 
 # engine routing
 require 'mambo/support/engine_router'
-Sms::Engine.load_engine_routes
-Authentication::Engine.load_engine_routes
+Mambo::Support::EngineRouter.load_engine_routes(:sms, :authentication)
 require 'rails/application/route_inspector'
-abort Rails::Application::RouteInspector.new.format(Rails.application.routes.routes).join("\n")
+#abort Rails::Application::RouteInspector.new.format(Rails.application.routes.routes).join("\n")
 
+require 'rack/test'
 require 'rspec/rails'
 require 'capybara/rails'
 
@@ -50,4 +50,5 @@ RSpec.configure do |config|
 
   config.include RSpec::CapybaraExtensions, :type => :view
   config.include FactoryGirl::Syntax::Methods
+  config.include Rack::Test::Methods, :type => :request
 end

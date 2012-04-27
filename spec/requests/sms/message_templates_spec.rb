@@ -12,7 +12,7 @@ describe "Message Templates" do
     describe "GET /sms/message_templates" do
       it "displays message_templates" do
         visit message_templates_path
-        response.code.should be(200)
+        page.should have_content @t.desc
       end
     end
   end

@@ -1,6 +1,6 @@
-module EngineRouter
-  module Rails
-    module Engine
+module Mambo
+  module Support
+    module EngineRouter
       ##
       # Automatically append all of the current engine's routes to the main
       # application's route set. This needs to be done for ALL functional tests that
@@ -13,14 +13,7 @@ module EngineRouter
       # @author Jason Hamilton (jhamilton@greatherorift.com)
       # @author Matthew Ratzloff (matt@urbaninfluence.com)
       # @author Xavier Dutreilh (xavier@dutreilh.fr)
-      def load_engine_routes(engine_symbol = nil)
-        if engine_symbol
-          engine_name = engine_symbol.to_s.camelize
-        else
-          # No engine provided, so presume the current engine is the one to load
-          engine_name = self.class.name.split("::").first.split("(").last
-        end
-        engine = ("#{engine_name}::Engine").constantize
+      def self.load_engine_routes(*engine_symbols)
 
         # Append the routes for this module to the existing routes
         ::Rails.application.routes.disable_clear_and_finalize = true
@@ -29,31 +22,35 @@ module EngineRouter
         ::Rails.application.routes.draw do
           resourced_routes = []
 
-          named_routes = engine.routes.named_routes.routes
+          engine_symbols.each do |engine_symbol|
+            engine_name = engine_symbol.to_s.camelize
+            engine = ("#{engine_name}::Engine").constantize
+            named_routes = engine.routes.named_routes.routes
 
-          engine.routes.routes.each do |route|
-            # Call the method by hand based on the symbol
-            path = "/#{engine_name.underscore}#{route.path.spec}"
-            verb = route.verb.to_s.downcase.gsub(/^.+\^(.+)\$.+$/, '\1').to_sym
-            requirements = route.requirements
-            if path_helper = named_routes.key(route)
-              requirements[:as] = path_helper
-            elsif route.requirements[:controller].present?
-              # Presume that all controllers referenced in routes should also be
-              # resources and append that routing on the end so that *_path helpers
-              # will still work
-              resourced_routes << route.requirements[:controller].gsub("#{engine_name.underscore}/", "").to_sym
+            engine.routes.routes.each do |route|
+              # Call the method by hand based on the symbol
+              path = "/#{engine_name.underscore}#{route.path.spec}"
+              verb = route.verb.to_s.downcase.gsub(/^.+\^(.+)\$.+$/, '\1').to_sym
+              requirements = route.requirements
+              if path_helper = named_routes.key(route)
+                requirements[:as] = path_helper
+              elsif route.requirements[:controller].present?
+                # Presume that all controllers referenced in routes should also be
+                # resources and append that routing on the end so that *_path helpers
+                # will still work
+                resourced_routes << route.requirements[:controller].gsub("#{engine_name.underscore}/", "").to_sym
+              end
+              send(verb, path, requirements) if respond_to?(verb)
             end
-            send(verb, path, requirements) if respond_to?(verb)
-          end
 
-          # Add each route, once, to the end under a scope to trick path helpers.
-          # This will probably break as soon as there is route name overlap, but
-          # we'll cross that bridge when we get to it.
-          resourced_routes.uniq!
-          scope engine_name.underscore do
-            resourced_routes.each do |resource|
-              resources resource
+            # Add each route, once, to the end under a scope to trick path helpers.
+            # This will probably break as soon as there is route name overlap, but
+            # we'll cross that bridge when we get to it.
+            resourced_routes.uniq!
+            scope engine_name.underscore do
+              resourced_routes.each do |resource|
+                resources resource
+              end
             end
           end
         end
@@ -65,5 +62,3 @@ module EngineRouter
     end
   end
 end
-
-Rails::Engine.send(:include, EngineRouter::Rails::Engine)
