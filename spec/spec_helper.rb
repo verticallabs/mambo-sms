@@ -29,7 +29,7 @@ module RSpec::CapybaraExtensions
 end
 
 # factory_girl
-require 'sms/support/factories' 
+require 'sms/support/factories'
 
 # engine routing
 require 'mambo/support/engine_router'
@@ -42,10 +42,17 @@ require 'rspec/rails'
 require 'capybara/rails'
 
 RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   config.before(:each) do
-    Sms::Subscriber.all.destroy
-    Sms::Message.all.destroy
-    Sms::MessageTemplate.all.destroy
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 
   config.include RSpec::CapybaraExtensions, :type => :view
