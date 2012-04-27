@@ -9,6 +9,7 @@ $:.push File.expand_path("../app", __FILE__)
 
 require 'mambo-sms'
 require 'mambo-authentication'
+require 'capybara/rspec'
 
 # combustion
 require 'haml-rails'
@@ -20,14 +21,25 @@ DataMapper.setup(:default, 'sqlite::memory:')
 DataMapper.setup(:in_memory, 'sqlite::memory:')
 DataMapper.auto_migrate!
 
+# capybara
+module RSpec::CapybaraExtensions
+  def rendered
+    Capybara.string(@rendered)
+  end
+end
+
 # factory_girl
 require 'sms/support/factories' 
 
 # engine routing
 require 'mambo/support/engine_router'
 Sms::Engine.load_engine_routes
+Authentication::Engine.load_engine_routes
+require 'rails/application/route_inspector'
+abort Rails::Application::RouteInspector.new.format(Rails.application.routes.routes).join("\n")
 
 require 'rspec/rails'
+require 'capybara/rails'
 
 RSpec.configure do |config|
   config.before(:each) do
@@ -36,5 +48,6 @@ RSpec.configure do |config|
     Sms::MessageTemplate.all.destroy
   end
 
+  config.include RSpec::CapybaraExtensions, :type => :view
   config.include FactoryGirl::Syntax::Methods
 end
