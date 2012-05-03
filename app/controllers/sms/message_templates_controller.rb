@@ -13,6 +13,7 @@ module Sms
 
 		#
 		def new
+			@page = params[:page]
 			@message_template = MessageTemplate.new
 			respond_with(@message_template)
 		end
@@ -20,9 +21,10 @@ module Sms
 		#
 		def create
 			begin
+				@page = params[:page]
 				@message_template = MessageTemplate.create_by(params[:message_template])
 				flash[:notice] = t(:created)
-				respond_with(@message_template, :location => message_templates_path)
+				respond_with(@message_template, :location => message_templates_path(:page => @page))
 
 			rescue DataMapper::SaveFailureError => error
 				@message_template = error.resource
@@ -34,6 +36,7 @@ module Sms
 
 		#
 		def edit
+			@page = params[:page]
 			@message_template = MessageTemplate.get!(params[:id])
 			respond_with(@message_template)
 		end
@@ -41,9 +44,10 @@ module Sms
 		#
 		def update
 			begin
+				@page = params[:page]
 				@message_template = MessageTemplate.update_by_id(params[:id], params[:message_template])
 				flash[:notice] = t(:updated)
-				respond_with(@message_template, :location => message_templates_path)
+				respond_with(@message_template, :location => message_templates_path(:page => @page))
 
 			rescue DataMapper::SaveFailureError => error
 				@message_template = error.resource
@@ -55,9 +59,10 @@ module Sms
 
 		#
 		def destroy
+			@page = params[:page]
 			@message_template = MessageTemplate.destroy_by_id(params[:id])
 			flash[:notice] = t(:destroyed)
-			respond_with(@message_template, :location => message_templates_path)
+			respond_with(@message_template, :location => message_templates_path(:page => @page))
 		end
 
 	private

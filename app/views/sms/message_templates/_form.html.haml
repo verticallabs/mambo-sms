@@ -1,14 +1,32 @@
-= render({:partial => "shared/errors", :object => @message_template})
-= form_for([@message_template]) do |mt|
-  %fieldset
-    %legend= t(".legend")
-    %ol
-      %li
-        = mt.label(:desc)
-        = mt.text_field(:desc)
-      %li
-        = mt.label(:body)
-        = mt.text_area(:body, {:size => "41x3", :maxlength => 160})
-  %fieldset
-    = link_to(t(".cancel"), message_templates_path, :class => "button")
-    = mt.submit(t(".commit"), :disable_with => t(".commit_disable"))
+- with_options(:page => @page) do |page|
+  = render({:partial => "shared/errors", :object => @message_template})
+  = form_for([@message_template]) do |mt|
+    = hidden_field_tag(:page, @page)
+    %fieldset
+      %legend= t(".legend")
+      %ol
+        %li
+          = mt.label(:desc)
+          = mt.text_field(:desc)
+        %li
+          = mt.label(:body)
+          = mt.text_area(:body, {:size => "41x3", :maxlength => Sms::MESSAGE_TEMPLATE_LENGTH})
+        %li
+          .label= t(".character_count")
+          %span#message_template_body_count
+    %fieldset
+      = link_to(t(".cancel"), page.message_templates_path, :class => "button")
+      = mt.submit(t(".commit"), :disable_with => t(".commit_disable"))
+
+:javascript
+  function updateCount() {
+    count = $('#message_template_body').val().length;
+    countElement = $('#message_template_body_count');
+    countElement.html(count);
+    countElement.toggleClass('warning', count > #{Sms::MESSAGE_LENGTH});
+  }
+
+  $(function() {
+    updateCount();
+    $('#message_template_body').keyup(updateCount);
+  });

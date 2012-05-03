@@ -17,6 +17,7 @@ en:
         destroy_disable: "Deleting..."
       form:
         legend: "Message Template"
+        character_count: "Character Count"
         cancel: "Cancel"
         commit: "Save Message Template"
         commit_disable: "Saving Message Template..."
