@@ -18,7 +18,7 @@ describe Sms::MessageTemplate do
   end
 
   it 'is invalid with body too long' do
-    m = Sms::MessageTemplate.new(@valid_attributes.merge(:body => Randomizer.string(Sms::MESSAGE_LENGTH + 1)))
+    m = Sms::MessageTemplate.new(@valid_attributes.merge(:body => Randomizer.string(Sms::MESSAGE_TEMPLATE_LENGTH + 1)))
 
     m.should_not be_valid
   end
