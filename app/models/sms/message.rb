@@ -15,7 +15,6 @@ module Sms
 		validates_length_of(:phone_number, :is => PHONE_NUMBER_LENGTH)
 		validates_format_of(:phone_number, :with => /^\d*$/)
 
-		validates_presence_of(:body)
 		validates_length_of(:body, :max => MESSAGE_LENGTH)
 
 		# associations
