@@ -29,7 +29,7 @@ module Sms
 		end
 
 		def self.get_by_name(name)
-			first(:name => name.to_s) || raise("not_found")
+			first(:name => name.to_s) || raise("#{name} not_found")
 		end
 
 		#
