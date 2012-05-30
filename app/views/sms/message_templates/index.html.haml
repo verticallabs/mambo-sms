@@ -4,8 +4,7 @@
 
   - if @message_templates.empty?
     = t(".no_message_templates")
-  -else
-    %ol#message_template_list.list
-      = render({:collection => @message_templates, :partial => "item", :as => :message_template})
+  - else
+    = render("table")
     - content_for(:footer) do
       = raw(@message_templates.pager.to_html(""))

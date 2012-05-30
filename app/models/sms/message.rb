@@ -4,8 +4,8 @@ module Sms
 
 		# properties
 		property(:id, Serial)
-		property(:status, Enum[*STATUSES], :index => true)
-		property(:phone_number, String, {:required => true, :index => true, :length => PHONE_NUMBER_LENGTH})
+		property(:status, Enum[*STATUSES], {:index => true, :required => true})
+		property(:phone_number, String, {:index => true, :required => true, :length => PHONE_NUMBER_LENGTH})
 		property(:body, String, :length => MESSAGE_LENGTH)
 		property(:sid, String, {:index => true, :length => SID_LENGTH})
 		property(:created_at, DateTime)
@@ -18,9 +18,9 @@ module Sms
 		validates_length_of(:body, :max => MESSAGE_LENGTH)
 
 		# associations
-		belongs_to(:subscriber, "Subscriber", :required => false)
-		belongs_to(:parent, "Message", :required => false, :constraint => :destroy)
-		has(n, :children, "Message", {:child_key => :parent_id, :constraint => :destroy})
+		belongs_to(:subscriber, Subscriber, :required => false)
+		belongs_to(:parent, Message, :required => false, :constraint => :destroy)
+		has(n, :children, Message, {:child_key => :parent_id, :constraint => :destroy})
 
 		# class methods
 		#
