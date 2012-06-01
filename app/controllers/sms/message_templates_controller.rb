@@ -4,10 +4,14 @@ module Sms
 		respond_to(:html)
 		layout("layouts/private/sms")
 
+    before_filter(:only => :index) do
+      sort_param(:message_templates)
+      session_param(:page, :message_templates)
+    end
+
 		#
 		def index
-			@page = params[:page]
-			@message_templates = MessageTemplate.all.page(:page => @page, :per_page => 20, :order => :id)
+			@message_templates = MessageTemplate.paginate(@page, 20, valid_sort)
 			respond_with(@message_templates)
 		end
 

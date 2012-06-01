@@ -1,7 +1,14 @@
 %table
   %tr
-    %th= t(".desc")
-    %th= t(".body")
-    %th= t(".updated_at")
+    = sorted_table_header_tag(:desc) do
+      = t(".desc")
+
+    = sorted_table_header_tag(:body) do
+      = t(".body")
+
+    = sorted_table_header_tag(:updated_at) do
+      = t(".updated_at")
+
     %th= t(".actions")
+
   = render(:collection => @message_templates, :partial => "row", :as => :message_template)

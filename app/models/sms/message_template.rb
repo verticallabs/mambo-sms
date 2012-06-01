@@ -28,6 +28,11 @@ module Sms
 			all(:type => :System)
 		end
 
+		#
+		def self.paginate(page, per_page, options = {})
+			page({:page => page, :per_page => per_page}.merge(options))
+		end
+
 		def self.get_by_name(name)
 			first(:name => name.to_s) || raise("#{name} not_found")
 		end
