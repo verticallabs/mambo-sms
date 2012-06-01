@@ -4,8 +4,8 @@ module Sms
 
     # properties
 		property(:id, Serial)
-		property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH })
 		property(:active, Boolean, {:required => true, :default => true, :index => true})
+		property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH })
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
@@ -15,6 +15,19 @@ module Sms
 
 		# associations
 		has(n, :messages, :constraint => :destroy)
+
+		# instance methods
+		#
+		def disable
+			active = false
+			save
+		end
+
+		#
+		def enable
+			active = true
+			save
+		end
 
 		# class methods
 		def self.active
@@ -27,18 +40,8 @@ module Sms
 		end
 
 		#
-		def self.first_active_by_phone_number(phone_number)
-			active.first(:phone_number => phone_number)
-		end
-
-		#
 		def self.create_by_phone_number(phone_number)
 			create(:phone_number => phone_number)
-		end
-
-		#
-		def self.first_or_create_by_phone_number(phone_number)
-			first_or_create(:phone_number => phone_number)
 		end
 	end
 end

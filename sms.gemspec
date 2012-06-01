@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 	s.test_files = Dir["spec/**/*"]
 
   # specify any dependencies here; for example:
-  s.add_runtime_dependency "rails", Sms::RAILS_VERSION
+  s.add_runtime_dependency "rails"
 	s.add_runtime_dependency "dm-rails", Sms::DM_VERSION
 	s.add_runtime_dependency "dm-types", Sms::DM_VERSION
 	s.add_runtime_dependency "dm-validations", Sms::DM_VERSION
@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
 	s.add_runtime_dependency "dm-timestamps", Sms::DM_VERSION	
 	s.add_runtime_dependency "dm-pager"
 	s.add_runtime_dependency "haml-rails"
-	s.add_runtime_dependency "haml"
 	s.add_runtime_dependency "mambo-authentication"
 	
 	s.add_development_dependency "rspec-rails"
@@ -35,7 +34,8 @@ Gem::Specification.new do |s|
 	s.add_development_dependency "dm-core", Sms::DM_VERSION
 	s.add_development_dependency "dm-migrations", Sms::DM_VERSION
 	s.add_development_dependency "dm-sqlite-adapter", Sms::DM_VERSION
-	s.add_development_dependency "capybara"
-	s.add_development_dependency "combustion"
 	s.add_development_dependency "database_cleaner"
+	s.add_development_dependency "capybara"
+	s.add_development_dependency "combustion"	
+	s.add_development_dependency "magic_encoding"
 end
