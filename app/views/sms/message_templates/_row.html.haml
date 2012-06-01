@@ -1,17 +1,17 @@
 = content_tag_for(:tr, message_template, :class => "item") do
-  %td= message_template.type
-
-  %td
-    = link_to( |
-      message_template.desc, |
-      edit_message_template_path(message_template))
+  %td= message_template.desc
 
   %td= truncate(message_template.body, :length => 40)
 
   %td= l(message_template.updated_at)
 
   %td
-    - if message_template.type == :User
+    = link_to( |
+        t(".edit_link"), |
+        edit_message_template_path(message_template), |
+        :class => "button")
+
+    - if not message_template.system
       = link_to( |
           t(".destroy_link"), |
           message_template_path(message_template), |

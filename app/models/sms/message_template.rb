@@ -4,10 +4,10 @@ module Sms
 
 		# properties
 		property(:id, Serial)
+		property(:system, Boolean, {:required => true, :default => false})
 		property(:name, String, {:unique => true, :length => TEMPLATE_NAME_LENGTH})
 		property(:desc, String, {:required => true, :unique => true, :length => TEMPLATE_DESC_LENGTH})
 		property(:body, String, {:required => true, :length => MESSAGE_TEMPLATE_LENGTH})
-		property(:type, Enum[*MESSAGE_TEMPLATE_TYPES], {:required => true, :default => :User})
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 

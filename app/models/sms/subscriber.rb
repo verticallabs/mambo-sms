@@ -5,7 +5,7 @@ module Sms
     # properties
 		property(:id, Serial)
 		property(:active, Boolean, {:required => true, :default => true, :index => true})
-		property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH })
+		property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH})
 		property(:created_at, DateTime)
 		property(:updated_at, DateTime)
 
