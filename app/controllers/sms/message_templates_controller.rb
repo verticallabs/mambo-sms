@@ -11,7 +11,7 @@ module Sms
 
 		#
 		def index
-			@message_templates = MessageTemplate.paginate(@page, 20, valid_sort)
+			@message_templates = MessageTemplate.all(valid_sort).paginate(:page => @page, :per_page => 20)
 			respond_with(@message_templates)
 		end
 

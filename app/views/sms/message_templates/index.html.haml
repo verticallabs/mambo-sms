@@ -7,4 +7,4 @@
   - else
     = render("table")
     - content_for(:footer) do
-      = raw(@message_templates.pager.to_html(""))
+      = will_paginate(@messages_templates)

@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 	s.add_runtime_dependency "dm-constraints", Sms::DM_VERSION
 	s.add_runtime_dependency "dm-transactions", Sms::DM_VERSION
 	s.add_runtime_dependency "dm-timestamps", Sms::DM_VERSION	
-	s.add_runtime_dependency "dm-pager"
+	s.add_runtime_dependency "will_paginate"
 	s.add_runtime_dependency "haml-rails"
 	s.add_runtime_dependency "mambo-authentication"
 	
