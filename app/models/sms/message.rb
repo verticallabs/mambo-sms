@@ -38,11 +38,6 @@ module Sms
 			first(:sid => sid)
 		end
 
-		# search
-		def self.search(page, per_page)
-			page(:page => page, :per_page => per_page, :order => [:created_at.desc])
-		end
-
 		# receive a message
 		def self.receive_from_phone_number(phone_number, body, sid, date = nil)
 			subscriber = Subscriber.first_by_phone_number(phone_number)

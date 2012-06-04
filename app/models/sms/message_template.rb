@@ -20,12 +20,12 @@ module Sms
 
 		#
 		def self.user
-			all(:type => :User)
+			all(:system => false)
 		end
 
 		#
 		def self.system
-			all(:type => :System)
+			all(:system => true)
 		end
 
 		#
