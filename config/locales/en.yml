@@ -21,8 +21,12 @@ en:
       row:
         edit_link: "Edit..."
         destroy_link: "Delete"
-        destroy_confirm: "Are you sure you want to delete this Message Template?"
+        destroy_confirm: "Are you sure you want to delete this message template?"
         destroy_disable: "Deleting..."
+      edit:
+        legend: "Audit"
+        created_at: "Created"
+        updated_at: "Updated"
       form:
         legend: "Message Template"
         character_count: "Character Count"
