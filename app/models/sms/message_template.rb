@@ -29,6 +29,11 @@ module Sms
 		end
 
 		#
+		def self.sorted_by(key, order)
+			all(:order => [key.send(order)])
+		end
+
+		#
 		def self.get_by_name(name)
 			first(:name => name.to_s) || raise("#{name} not_found")
 		end

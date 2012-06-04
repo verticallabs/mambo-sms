@@ -5,13 +5,13 @@ module Sms
 		layout("layouts/private/sms")
 
     before_filter(:only => :index) do
-      sort_param(:message_templates)
-      session_param(:page, :message_templates)
+    	page_param(:message_templates)
+      sort_param(:message_templates, :name, :asc)
     end
 
 		#
 		def index
-			@message_templates = MessageTemplate.all(valid_sort).paginate(:page => @page, :per_page => 20)
+			@message_templates = MessageTemplate.sorted_by(@sort_key, @sort_order).paginate(:page => @page, :per_page => 20)
 			respond_with(@message_templates)
 		end
 
