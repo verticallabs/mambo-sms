@@ -44,7 +44,7 @@ describe Sms::Message do
 
     m.should be_valid
     m.subscriber.should be_nil
-    m.status.should == :Received
+    m.status.should == :received
   end
 
   it 'should create with Subscriber if known phone number' do
@@ -57,7 +57,7 @@ describe Sms::Message do
 
     m.should be_valid
     m.subscriber.should == subscriber
-    m.status.should == :Received
+    m.status.should == :received
   end
 
   it 'should be able to be updated by id' do
@@ -78,7 +78,7 @@ describe Sms::Message do
 
     m.persisted?.should be_true
     m.body.should == body
-    m.status.should == :Sending
+    m.status.should == :sending
   end
 
   it 'should create a message to send to subscriber properly' do
@@ -88,18 +88,18 @@ describe Sms::Message do
 
     m.phone_number.should == subscriber.phone_number
     m.body.should == body
-    m.status.should == :Sending
+    m.status.should == :sending
     m.persisted?.should be_true
   end
 
   it 'should create replies properly' do
-    m = Sms::Message.create(@valid_attributes.merge(:status => :Received))
+    m = Sms::Message.create(@valid_attributes.merge(:status => :received))
 
     r = Sms::Message.create_reply(m, 'reply')
     m.reload
 
     r.parent.should == m
-    r.status.should == :Sending
+    r.status.should == :sending
     r.persisted?.should be_true
     m.children.include?(r).should be_true
   end

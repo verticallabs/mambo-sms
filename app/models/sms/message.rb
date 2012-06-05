@@ -25,12 +25,17 @@ module Sms
 		# class methods
 		#
 		def self.sent
-			all(:status => :Sent)
+			all(:status => :sent)
 		end
 
 		#
 		def self.received
-			all(:status => :Received)
+			all(:status => :received)
+		end
+
+		#
+		def self.sorted_by(key, order)
+			all(:order => [key.send(order)])
 		end
 
 		#
@@ -64,7 +69,7 @@ module Sms
 			reply.subscriber = message.subscriber
 			reply.phone_number = message.phone_number
 			reply.body = body
-			reply.status = :Sending
+			reply.status = :sending
 			reply.save
 			reply
 		end
@@ -74,7 +79,7 @@ module Sms
 			message = subscriber.messages.new
 			message.phone_number = subscriber.phone_number
 			message.body = body
-			message.status = :Sending
+			message.status = :sending
 			message.save
 			message
 		end
@@ -84,7 +89,7 @@ module Sms
 			message = Message.new
 			message.phone_number = phone_number
 			message.body = body
-			message.status = :Sending
+			message.status = :sending
 			message.save
 			message
 		end
@@ -94,7 +99,7 @@ module Sms
 			message = Message.new
 			message.phone_number = phone_number
 			message.body = body
-			message.status = :Received
+			message.status = :received
 			message.sid = sid
 			message.created_at = date
 			message.save
@@ -106,7 +111,7 @@ module Sms
 			message = subscriber.messages.new
 			message.phone_number = subscriber.phone_number
 			message.body = body
-			message.status = :Received
+			message.status = :received
 			message.sid = sid
 			message.created_at = date
 			message.save
