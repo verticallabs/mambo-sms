@@ -1,8 +1,11 @@
 en:
   helpers:
     label:
-      message_template:
+      "sms/message_template":
         desc: "Description"
+      "sms/subscriber":
+        phone_number: "Phone Number"
+
   sms:
     message_templates:
       created: "Message Template Created"
