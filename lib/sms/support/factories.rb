@@ -18,7 +18,7 @@ FactoryGirl.define do
     name          { Randomizer.string(Sms::TEMPLATE_NAME_LENGTH) }
     desc          { Randomizer.string(Sms::TEMPLATE_DESC_LENGTH) }
     body          { Randomizer.string(Sms::MESSAGE_LENGTH) }
-		type          { Randomizer.enum(Sms::MESSAGE_TEMPLATE_TYPES) }
+		system        { Randomizer.boolean }
   end
 
   factory(:user, :class => Authentication::User) do
