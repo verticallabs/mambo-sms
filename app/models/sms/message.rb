@@ -34,6 +34,16 @@ module Sms
 		end
 
 		#
+		def self.read
+			all(:status => :read)
+		end
+
+		#
+		def self.received_or_read
+			received | read
+		end
+
+		#
 		def self.sorted_by(key, order)
 			all(:order => [key.send(order)])
 		end
