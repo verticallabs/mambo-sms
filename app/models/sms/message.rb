@@ -85,16 +85,6 @@ module Sms
 		end
 
 		#
-		def self.create_to_subscriber(subscriber, body)
-			message = subscriber.messages.new
-			message.phone_number = subscriber.phone_number
-			message.body = body
-			message.status = :sending
-			message.save
-			message
-		end
-
-		#
 		def self.create_to_phone_number(phone_number, body)
 			message = Message.new
 			message.phone_number = phone_number

@@ -42,4 +42,15 @@ describe Sms::Subscriber do
 
     Sms::Message.get(id).should be_nil
   end
+
+  it 'should create an outgoing message properly' do
+    body = 'test'
+    subscriber = FactoryGirl.create(:subscriber)
+    m = subscriber.create_outgoing_message(body)
+
+    m.phone_number.should == subscriber.phone_number
+    m.body.should == body
+    m.status.should == :sending
+    m.persisted?.should be_true
+  end
 end

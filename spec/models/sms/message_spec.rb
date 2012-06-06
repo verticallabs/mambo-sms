@@ -81,17 +81,6 @@ describe Sms::Message do
     m.status.should == :sending
   end
 
-  it 'should create a message to send to subscriber properly' do
-    body = 'test'
-    subscriber = FactoryGirl.create(:subscriber)
-    m = Sms::Message.create_to_subscriber(subscriber, body)
-
-    m.phone_number.should == subscriber.phone_number
-    m.body.should == body
-    m.status.should == :sending
-    m.persisted?.should be_true
-  end
-
   it 'should create replies properly' do
     m = Sms::Message.create(@valid_attributes.merge(:status => :received))
 

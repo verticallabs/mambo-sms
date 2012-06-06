@@ -19,14 +19,21 @@ module Sms
 		# instance methods
 		#
 		def disable
-			active = false
-			save
+			update(:active => false)
 		end
 
 		#
 		def enable
-			active = true
-			save
+			update(:active => true)
+		end
+
+		#
+		def create_outgoing_message(body)
+			messages.create(
+				:phone_number => phone_number,
+				:body => body,
+				:status => :sending
+			)
 		end
 
 		# class methods
