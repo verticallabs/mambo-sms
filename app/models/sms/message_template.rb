@@ -1,15 +1,16 @@
 module Sms
-	class MessageTemplate
-		include DataMapper::Resource
+	class MessageTemplate < ActiveRecord::Base
+		# attributes
+		attr_accessible(:system, :name, :desc, :body)
 
 		# properties
-		property(:id, Serial)
-		property(:system, Boolean, {:required => true, :default => false})
-		property(:name, String, {:unique => true, :length => TEMPLATE_NAME_LENGTH})
-		property(:desc, String, {:required => true, :unique => true, :length => TEMPLATE_DESC_LENGTH})
-		property(:body, String, {:required => true, :length => MESSAGE_TEMPLATE_LENGTH})
-		property(:created_at, DateTime)
-		property(:updated_at, DateTime)
+		#property(:id, Serial)
+		#property(:system, Boolean, {:required => true, :default => false})
+		#property(:name, String, {:unique => true, :length => TEMPLATE_NAME_LENGTH})
+		#property(:desc, String, {:required => true, :unique => true, :length => TEMPLATE_DESC_LENGTH})
+		#property(:body, String, {:required => true, :length => MESSAGE_TEMPLATE_LENGTH})
+		#property(:created_at, DateTime)
+		#property(:updated_at, DateTime)
 
 		# validations
 		validates_length_of(:name, :within => 2..TEMPLATE_NAME_LENGTH, :allow_nil => true)

@@ -1,13 +1,6 @@
 module Sms
-  class Engine < ::Rails::Engine
+  class Engine < Rails::Engine
     isolate_namespace Sms
-
-		#
-    initializer "models" do
-    	require "sms/message"
-    	require "sms/subscriber"
-    	require "sms/message_template"
-    end
 
 		#
     initializer "i18n" do

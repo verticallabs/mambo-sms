@@ -1,20 +1,21 @@
 module Sms
-	class Subscriber
-		include DataMapper::Resource
+	class Subscriber < ActiveRecord::Base
+		# attributes
+		attr_accessible(:active, :phone_number)
 
     # properties
-		property(:id, Serial)
-		property(:active, Boolean, {:required => true, :default => true, :index => true})
-		property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH})
-		property(:created_at, DateTime)
-		property(:updated_at, DateTime)
+		#property(:id, Serial)
+		#property(:active, Boolean, {:required => true, :default => true, :index => true})
+		#property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH})
+		#property(:created_at, DateTime)
+		#property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:phone_number, :is => PHONE_NUMBER_LENGTH)
-		validates_format_of(:phone_number, :with => /^\d*$/)
+		validates(:active, :presence => true)
+		validates(:phone_number, :presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/)
 
 		# associations
-		has(n, :messages, :constraint => :destroy)
+		has_many(:messages, :dependent => :destroy)
 
 		# instance methods
 		#

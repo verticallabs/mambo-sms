@@ -2,3 +2,5 @@
 .bundle
 Gemfile.lock
 pkg/*
+db/*
+spec/internal/db/*

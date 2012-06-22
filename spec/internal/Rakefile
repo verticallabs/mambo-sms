@@ -1,0 +1,10 @@
+require "rubygems"
+require "bundler"
+require "rails"
+
+Bundler.require(:default, :development) if defined?(Bundler)
+
+Combustion.path = "./"
+Combustion.initialize!
+
+Combustion::Application.load_tasks

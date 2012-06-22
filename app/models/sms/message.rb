@@ -1,26 +1,30 @@
+require "enumerize"
+
 module Sms
-	class Message
-		include DataMapper::Resource
+	class Message < ActiveRecord::Base
+		include ::Enumerize
+
+		# attributes
+		attr_accessible(:status, :phone_number, :body, :sid)
+		enumerize(:status, :in => STATUSES)
 
 		# properties
-		property(:id, Serial)
-		property(:status, Enum[*STATUSES], {:index => true, :required => true})
-		property(:phone_number, String, {:index => true, :required => true, :length => PHONE_NUMBER_LENGTH})
-		property(:body, String, :length => MESSAGE_LENGTH)
-		property(:sid, String, {:index => true, :length => SID_LENGTH})
-		property(:created_at, DateTime)
-		property(:updated_at, DateTime)
+		#property(:id, Serial)
+		#property(:status, Enum[*STATUSES], {:index => true, :required => true})
+		#property(:phone_number, String, {:index => true, :required => true, :length => PHONE_NUMBER_LENGTH})
+		#property(:body, String, :length => MESSAGE_LENGTH)
+		#property(:sid, String, {:index => true, :length => SID_LENGTH})
+		#property(:created_at, DateTime)
+		#property(:updated_at, DateTime)
 
 		# validations
-		validates_length_of(:phone_number, :is => PHONE_NUMBER_LENGTH)
-		validates_format_of(:phone_number, :with => /^\d*$/)
-
-		validates_length_of(:body, :max => MESSAGE_LENGTH)
+		validates(:phone_number, {:presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/})
+		validates(:body, :length => {:maximum => MESSAGE_LENGTH})
 
 		# associations
-		belongs_to(:subscriber, Subscriber, :required => false)
-		belongs_to(:parent, Message, :required => false, :constraint => :destroy)
-		has(n, :children, Message, {:child_key => :parent_id, :constraint => :destroy})
+		belongs_to(:subscriber)
+		belongs_to(:parent, {:class_name => "Message", :dependent => :destroy})
+		has_many(:children, {:class_name => "Message", :foreign_key => :parent_id, :dependent => :destroy})
 
 		# class methods
 		#
