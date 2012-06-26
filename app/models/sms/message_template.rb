@@ -3,40 +3,29 @@ module Sms
 		# attributes
 		attr_accessible(:system, :name, :desc, :body)
 
-		# properties
-		#property(:id, Serial)
-		#property(:system, Boolean, {:required => true, :default => false})
-		#property(:name, String, {:unique => true, :length => TEMPLATE_NAME_LENGTH})
-		#property(:desc, String, {:required => true, :unique => true, :length => TEMPLATE_DESC_LENGTH})
-		#property(:body, String, {:required => true, :length => MESSAGE_TEMPLATE_LENGTH})
-		#property(:created_at, DateTime)
-		#property(:updated_at, DateTime)
-
 		# validations
-		validates_length_of(:name, :within => 2..TEMPLATE_NAME_LENGTH, :allow_nil => true)
-		validates_format_of(:name, :with => /^[\w_]*$/, :allow_nil => true)
-
-		validates_length_of(:desc, :within => 2..TEMPLATE_DESC_LENGTH)
-		validates_format_of(:desc, :with => /^[\w -]*$/)
+		validates(:name, :allow_nil => true, :length => {:in => 2..64}, :format => /^[\w_]*$/)
+		validates(:desc, :presence => true, :length => {:in => 2..64}, :format => /^[\w -]*$/)
+		validates(:body, :presence => true, :length => {:maximum => 200})
 
 		#
 		def self.user
-			all(:system => false)
+			where(:system => false)
 		end
 
 		#
 		def self.system
-			all(:system => true)
+			where(:system => true)
 		end
 
 		#
 		def self.sorted_by(key, order)
-			all(:order => [key.send(order)])
+			order("#{key} #{order.to_s.upcase}")
 		end
 
 		#
 		def self.get_by_name(name)
-			first(:name => name.to_s) || raise("#{name} not_found")
+			where(:name => name.to_s).first || raise("#{name} not_found")
 		end
 
 		#
@@ -46,15 +35,12 @@ module Sms
 
 		#
 		def self.update_by_id(id, params)
-			message_template = get!(id)
-			message_template.attributes = params
-			message_template.save
-			message_template
+			update(id, params)
 		end
 
 		#
 		def self.destroy_by_id(id)
-			message_template = get!(id)
+			message_template = find(id)
 			message_template.destroy
 			message_template
 		end

@@ -18,14 +18,16 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   s.add_runtime_dependency "rails"
-  s.add_runtime_dependency "enumerize"
+  s.add_runtime_dependency "simple_enum"
 	s.add_runtime_dependency "will_paginate"
 	s.add_runtime_dependency "haml-rails"
+	s.add_runtime_dependency "mambo-support"
 	s.add_runtime_dependency "mambo-authentication"
 
-	s.add_development_dependency "rspec-rails"
-	s.add_development_dependency "sqlite3"
+	s.add_development_dependency "rspec-rails"	
 	s.add_development_dependency "factory_girl"
+	s.add_development_dependency "shoulda-matchers"
+	s.add_development_dependency "sqlite3"
 	s.add_development_dependency "database_cleaner"
 	s.add_development_dependency "capybara"
 	s.add_development_dependency "combustion"

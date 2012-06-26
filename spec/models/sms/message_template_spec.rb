@@ -1,58 +1,71 @@
 require 'spec_helper'
 
 describe Sms::MessageTemplate do
-  before(:all) do
-    @valid_attributes = FactoryGirl.build(:message_template).attributes
-  end
+	#
+	describe "validations" do
+		subject { create(:message_template) }
+		it { should ensure_length_of(:name).is_at_least(2) }
+		it { should ensure_length_of(:name).is_at_most(64) }
+		it { should validate_presence_of(:desc) }
+		it { should ensure_length_of(:desc).is_at_least(2) }
+		it { should ensure_length_of(:desc).is_at_most(64) }
+		it { should ensure_length_of(:body).is_at_most(200) }
+	end
 
-  it 'is invalid when new' do
-    m = Sms::MessageTemplate.new
+	#
+	describe "methods" do
+		#
+		it "filters -> user" do
+			mt = create(:message_template, :system => false)
+			mts = Sms::MessageTemplate.user
+			mts.size.should == 1
+			mts[0].should == mt
+		end
 
-    m.should_not be_valid
-  end
+		#
+		it "filters -> system" do
+			mt = create(:message_template, :system => true)
+			mts = Sms::MessageTemplate.system
+			mts.size.should == 1
+			mts[0].should == mt
+		end
 
-  it 'is valid with valid params' do
-    m = Sms::MessageTemplate.new(@valid_attributes)
+		#
+		it "sorts" do
+			mt1 = create(:message_template, :name => "ZZ")
+			mt2 = create(:message_template, :name => "AA")
+			mts = Sms::MessageTemplate.sorted_by(:name, :asc)
+			mts.should == [mt2, mt1]
+		end
 
-    m.should be_valid
-  end
+		#
+		it "gets by name" do
+			name = "test"
+			create(:message_template, :name => name)
+			mt = Sms::MessageTemplate.get_by_name(name)
+			mt.should_not be_nil
+		end
 
-  it 'is invalid with body too long' do
-    m = Sms::MessageTemplate.new(@valid_attributes.merge(:body => Randomizer.string(Sms::MESSAGE_TEMPLATE_LENGTH + 1)))
+		#
+		def self.create_by(params)
+			attributes = attributes_for(:message_template)
+			mt = Sms::MessageTemplate.create_by(attributes)
+			mt.should be_valid
+		end
 
-    m.should_not be_valid
-  end
+		#
+		def self.update_by_id(id, params)
+			name = "test"
+			mt = create(:message_template)
+			mt = Sms::MessageTemplate.update_by_id(mt.id, :name => name)
+			mt.should be_valid
+			mt.name.should == name
+		end
 
-  it 'is invalid with name too long' do
-    m = Sms::MessageTemplate.new(@valid_attributes.merge(:name => Randomizer.string(Sms::TEMPLATE_NAME_LENGTH + 1)))
-
-    m.should_not be_valid
-  end
-
-  it 'is invalid with description too long' do
-    m = Sms::MessageTemplate.new(@valid_attributes.merge(:desc => Randomizer.string(Sms::TEMPLATE_DESC_LENGTH + 1)))
-
-    m.should_not be_valid
-  end
-
-  it 'should be able to be updated by id' do
-    m = FactoryGirl.create(:message_template)
-    new_params = { :name => 'new_name', :desc => 'new desc', :body => 'new body' }
-
-    Sms::MessageTemplate.update_by_id(m.id, new_params)
-    m.reload
-
-    m.name.should == new_params[:name]
-    m.desc.should == new_params[:desc]
-    m.body.should == new_params[:body]
-  end
-
-  it 'should be able to be destroy by id' do
-    m = FactoryGirl.create(:message_template)
-
-    Sms::MessageTemplate.destroy_by_id(m.id)
-    id = m.id
-
-    Sms::MessageTemplate.get(id).should be_nil
-  end
+		#
+		def self.destroy_by_id(id)
+			mt = create(:message_template)
+			Sms::MessageTemplate.destroy_by_id(mt.id)
+		end
+	end
 end

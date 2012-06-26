@@ -1,21 +1,10 @@
-require "enumerize"
-
 module Sms
 	class Message < ActiveRecord::Base
-		include ::Enumerize
+		include SimpleEnum
 
 		# attributes
 		attr_accessible(:status, :phone_number, :body, :sid)
-		enumerize(:status, :in => STATUSES)
-
-		# properties
-		#property(:id, Serial)
-		#property(:status, Enum[*STATUSES], {:index => true, :required => true})
-		#property(:phone_number, String, {:index => true, :required => true, :length => PHONE_NUMBER_LENGTH})
-		#property(:body, String, :length => MESSAGE_LENGTH)
-		#property(:sid, String, {:index => true, :length => SID_LENGTH})
-		#property(:created_at, DateTime)
-		#property(:updated_at, DateTime)
+		as_enum(:status, STATUSES, :column => "status_code")
 
 		# validations
 		validates(:phone_number, {:presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/})

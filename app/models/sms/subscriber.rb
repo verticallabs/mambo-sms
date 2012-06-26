@@ -3,16 +3,9 @@ module Sms
 		# attributes
 		attr_accessible(:active, :phone_number)
 
-    # properties
-		#property(:id, Serial)
-		#property(:active, Boolean, {:required => true, :default => true, :index => true})
-		#property(:phone_number, String, {:required=> true, :unique => true, :length => PHONE_NUMBER_LENGTH})
-		#property(:created_at, DateTime)
-		#property(:updated_at, DateTime)
-
 		# validations
-		validates(:active, :presence => true)
-		validates(:phone_number, :presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/)
+		validates(:active, :inclusion => {:in => [true, false]})
+		validates(:phone_number, {:uniqueness => true, :presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/})
 
 		# associations
 		has_many(:messages, :dependent => :destroy)
