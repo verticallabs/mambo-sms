@@ -10,20 +10,20 @@
         = mt.text_field(:desc)
       %li
         = mt.label(:body)
-        = mt.text_area(:body, {:size => "41x3", :maxlength => Sms::MESSAGE_TEMPLATE_LENGTH})
+        = mt.text_area(:body, {:size => "41x3", :maxlength => Sms::MESSAGE_TEMPLATE_BODY_MAX})
       %li
         .label= t(".character_count")
         %span#message_template_body_count
   %fieldset
     = link_to(t(".cancel"), message_templates_path, :class => "button")
-    = mt.submit(t(".commit"), :disable_with => t(".commit_disable"))
+    = mt.submit(t(".commit"), :data => {:disable_with => t(".commit_disable")})
 
 :javascript
   function updateCount() {
     count = $('#message_template_body').val().length;
     countElement = $('#message_template_body_count');
     countElement.html(count);
-    countElement.toggleClass('warning', count > #{Sms::MESSAGE_LENGTH});
+    countElement.toggleClass('warning', count > #{Sms::MESSAGE_BODY_MAX});
   }
 
   $(function() {

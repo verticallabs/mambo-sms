@@ -1,10 +1,9 @@
-- with_options(:page => @page) do |page|
-  - content_for(:actions) do
-    = link_to(t(".add_link"), page.new_message_template_path, :class => "button")
+- content_for(:actions) do
+  = link_to(t(".add_link"), new_message_template_path, :class => "button")
 
-  - if @message_templates.empty?
-    = t(".no_message_templates")
-  - else
-    = render("table")
-    - content_for(:footer) do
-      = will_paginate(@messages_templates)
+- if @message_templates.empty?
+  = t(".no_message_templates")
+- else
+  = render("table")
+  - content_for(:footer) do
+    = will_paginate(@message_templates)

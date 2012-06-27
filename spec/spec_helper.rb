@@ -19,7 +19,7 @@ Dir[File.join(spec_path, "factories", "**", "*.rb")].each { |f| require f }
 
 require "rack/test"
 require "rspec/rails"
-#require "capybara/rails"
+require "capybara/rspec"
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -36,14 +36,18 @@ RSpec.configure do |config|
   end
 
   config.include FactoryGirl::Syntax::Methods
+
+  # include engine url helpers so we can use them in our specs
   config.include Sms::Engine.routes.url_helpers
 
   #config.include Rack::Test::Methods, :type => :request
-  #config.include RSpec::CapybaraExtensions, :type => :view
 end
 
+# include engine url helpers in the views under test (this should happen automatically, but doesn't)
+ActionView::TestCase::TestController.send(:include, Sms::Engine.routes.url_helpers)
+
 # capybara
-#require "capybara/rspec"
+
 #module RSpec::CapybaraExtensions
 #  def rendered
 #    Capybara.string(@rendered)
