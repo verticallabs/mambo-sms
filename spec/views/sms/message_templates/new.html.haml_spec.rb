@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "sms/message_templates/new" do
   it "renders _form partial" do

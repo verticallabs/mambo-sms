@@ -4,9 +4,9 @@ module Sms
 		attr_accessible(:system, :name, :desc, :body)
 
 		# validations
-		validates(:name, :allow_nil => true, :length => {:in => 2..64}, :format => /^[\w_]*$/)
-		validates(:desc, :presence => true, :length => {:in => 2..64}, :format => /^[\w -]*$/)
-		validates(:body, :presence => true, :length => {:maximum => 200})
+		validates(:name, :allow_nil => true, :length => {:in => MESSAGE_TEMPLATE_NAME_MIN..MESSAGE_TEMPLATE_NAME_MAX}, :format => /^[\w_]*$/)
+		validates(:desc, :presence => true, :length => {:in => MESSAGE_TEMPLATE_DESC_MIN..MESSAGE_TEMPLATE_DESC_MAX}, :format => /^[\w -]*$/)
+		validates(:body, :presence => true, :length => {:maximum => MESSAGE_TEMPLATE_BODY_MAX})
 
 		#
 		def self.user

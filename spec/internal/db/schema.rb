@@ -11,12 +11,44 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120626210603) do
+ActiveRecord::Schema.define(:version => 20120627170244) do
+
+  create_table "authentication_roles", :force => true do |t|
+    t.boolean  "system",                   :default => false, :null => false
+    t.string   "name",       :limit => 64,                    :null => false
+    t.string   "desc",       :limit => 64,                    :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+  end
+
+  add_index "authentication_roles", ["name"], :name => "index_authentication_roles_on_name", :unique => true
+
+  create_table "authentication_user_roles", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "role_id",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "authentication_user_roles", ["user_id", "role_id"], :name => "index_authentication_user_roles_on_user_id_and_role_id", :unique => true
+
+  create_table "authentication_users", :force => true do |t|
+    t.boolean  "system",                         :default => false, :null => false
+    t.string   "name",            :limit => 64,                     :null => false
+    t.string   "email_address",   :limit => 128,                    :null => false
+    t.string   "password_digest", :limit => 64,                     :null => false
+    t.string   "phone_number",    :limit => 10
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
+  end
+
+  add_index "authentication_users", ["email_address"], :name => "index_authentication_users_on_email_address", :unique => true
+  add_index "authentication_users", ["name"], :name => "index_authentication_users_on_name", :unique => true
 
   create_table "sms_message_templates", :force => true do |t|
     t.boolean  "system",                    :null => false
     t.string   "name",       :limit => 64
-    t.string   "desc",       :limit => 64
+    t.string   "desc",       :limit => 64,  :null => false
     t.string   "body",       :limit => 200, :null => false
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
@@ -29,7 +61,7 @@ ActiveRecord::Schema.define(:version => 20120626210603) do
   create_table "sms_messages", :force => true do |t|
     t.integer  "subscriber_id"
     t.integer  "parent_id"
-    t.integer  "status_code",                  :null => false
+    t.string   "status",                       :null => false
     t.string   "phone_number",  :limit => 10,  :null => false
     t.string   "body",          :limit => 160
     t.string   "sid",           :limit => 34
@@ -39,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20120626210603) do
 
   add_index "sms_messages", ["phone_number"], :name => "index_sms_messages_on_phone_number"
   add_index "sms_messages", ["sid"], :name => "index_sms_messages_on_sid"
-  add_index "sms_messages", ["status_code"], :name => "index_sms_messages_on_status_code"
+  add_index "sms_messages", ["status"], :name => "index_sms_messages_on_status"
 
   create_table "sms_subscribers", :force => true do |t|
     t.boolean  "active",                     :default => false, :null => false

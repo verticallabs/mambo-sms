@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   s.add_runtime_dependency "rails"
-  s.add_runtime_dependency "simple_enum"
+  s.add_runtime_dependency "enumerated_attribute"
 	s.add_runtime_dependency "will_paginate"
 	s.add_runtime_dependency "haml-rails"
 	s.add_runtime_dependency "mambo-support"

@@ -4,12 +4,12 @@ describe Sms::MessageTemplate do
 	#
 	describe "validations" do
 		subject { create(:message_template) }
-		it { should ensure_length_of(:name).is_at_least(2) }
-		it { should ensure_length_of(:name).is_at_most(64) }
+		it { should ensure_length_of(:name).is_at_least(Sms::MESSAGE_TEMPLATE_NAME_MIN) }
+		it { should ensure_length_of(:name).is_at_most(Sms::MESSAGE_TEMPLATE_NAME_MAX) }
 		it { should validate_presence_of(:desc) }
-		it { should ensure_length_of(:desc).is_at_least(2) }
-		it { should ensure_length_of(:desc).is_at_most(64) }
-		it { should ensure_length_of(:body).is_at_most(200) }
+		it { should ensure_length_of(:desc).is_at_least(Sms::MESSAGE_TEMPLATE_DESC_MIN) }
+		it { should ensure_length_of(:desc).is_at_most(Sms::MESSAGE_TEMPLATE_DESC_MAX) }
+		it { should ensure_length_of(:body).is_at_most(Sms::MESSAGE_TEMPLATE_BODY_MAX) }
 	end
 
 	#

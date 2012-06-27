@@ -1,14 +1,12 @@
 module Sms
 	class Message < ActiveRecord::Base
-		include SimpleEnum
-
 		# attributes
 		attr_accessible(:status, :phone_number, :body, :sid)
-		as_enum(:status, STATUSES, :column => "status_code")
+		enum_attr(:status, MESSAGE_STATUSES, :init => :unknown, :nil => false)
 
 		# validations
 		validates(:phone_number, {:presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/})
-		validates(:body, :length => {:maximum => MESSAGE_LENGTH})
+		validates(:body, :length => {:maximum => MESSAGE_BODY_MAX})
 
 		# associations
 		belongs_to(:subscriber)
@@ -18,32 +16,32 @@ module Sms
 		# class methods
 		#
 		def self.sent
-			all(:status => :sent)
+			where(:status => :sent)
 		end
 
 		#
 		def self.received
-			all(:status => :received)
+			where(:status => :received)
 		end
 
 		#
 		def self.read
-			all(:status => :read)
+			where(:status => :read)
 		end
 
 		#
 		def self.received_or_read
-			received | read
+			where(:status => [:received, :read])
 		end
 
 		#
 		def self.sorted_by(key, order)
-			all(:order => [key.send(order)])
+			order("#{key} #{order.to_s.upcase}")
 		end
 
 		#
 		def self.first_by_sid(sid)
-			first(:sid => sid)
+			where(:sid => sid).first
 		end
 
 		# receive a message

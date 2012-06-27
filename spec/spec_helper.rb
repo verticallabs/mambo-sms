@@ -12,8 +12,6 @@ $:.push File.expand_path("../app", __FILE__)
 # combustion
 Combustion.initialize!
 
-require "shoulda-matchers"
-
 spec_path = File.expand_path("../", __FILE__)
 
 # factory_girl
@@ -37,15 +35,17 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  #config.include RSpec::CapybaraExtensions, :type => :view
   config.include FactoryGirl::Syntax::Methods
-  config.include Rack::Test::Methods, :type => :request
+  config.include Sms::Engine.routes.url_helpers
+
+  #config.include Rack::Test::Methods, :type => :request
+  #config.include RSpec::CapybaraExtensions, :type => :view
 end
 
 # capybara
-require "capybara/rspec"
-module RSpec::CapybaraExtensions
-  def rendered
-    Capybara.string(@rendered)
-  end
-end
+#require "capybara/rspec"
+#module RSpec::CapybaraExtensions
+#  def rendered
+#    Capybara.string(@rendered)
+#  end
+#end

@@ -24,11 +24,12 @@ module Sms
 		#
 		def create
 			begin
-				@message_template = MessageTemplate.create_by(params[:message_template])
+				message_template = params[:message_template]
+				@message_template = MessageTemplate.create_by(message_template)
 				flash[:notice] = t(:created)
 				respond_with(@message_template, :location => message_templates_path)
 
-			rescue DataMapper::SaveFailureError => error
+			rescue ActiveRecord::RecordInvalid => error
 				@message_template = error.resource
 				respond_with(@message_template) do |format|
 					format.html {	render(:new) }
@@ -38,18 +39,19 @@ module Sms
 
 		#
 		def edit
-			@message_template = MessageTemplate.get!(params[:id])
+			@message_template = MessageTemplate.find(params[:id])
 			respond_with(@message_template)
 		end
 
 		#
 		def update
 			begin
-				@message_template = MessageTemplate.update_by_id(params[:id], params[:message_template])
+				message_template = params[:message_template]
+				@message_template = MessageTemplate.update_by_id(params[:id], message_template)
 				flash[:notice] = t(:updated)
 				respond_with(@message_template, :location => message_templates_path)
 
-			rescue DataMapper::SaveFailureError => error
+			rescue ActiveRecord::RecordInvalid => error
 				@message_template = error.resource
 				respond_with(@message_template) do |format|
 					format.html {	render(:edit) }
