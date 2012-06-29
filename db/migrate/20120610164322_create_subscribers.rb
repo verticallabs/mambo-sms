@@ -6,6 +6,7 @@ class CreateSubscribers < ActiveRecord::Migration
       t.string(:phone_number, :null => false, :limit => Sms::PHONE_NUMBER_LENGTH)
       t.timestamps
     end
+
     add_index(:sms_subscribers, :active)
     add_index(:sms_subscribers, :phone_number, :unique => true)
   end
