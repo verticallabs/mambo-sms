@@ -19,8 +19,8 @@ module Sms
 
 		# associations
 		belongs_to(:subscriber, Subscriber, :required => false)
-		belongs_to(:parent, Message, :required => false, :constraint => :destroy)
-		has(n, :children, Message, {:child_key => :parent_id, :constraint => :destroy})
+		belongs_to(:parent, Message, :required => false)
+		has(n, :children, Message, :child_key => :parent_id, :constraint => :destroy)
 
 		# class methods
 		#

@@ -3,7 +3,9 @@
 
   %td= truncate(message_template.body, :length => 40)
 
-  %td= l(message_template.updated_at)
+  %td
+    - if !message_template.updated_at.nil?
+      = l(message_template.updated_at)
 
   %td
     = link_to( |

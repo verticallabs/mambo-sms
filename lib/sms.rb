@@ -1,3 +1,15 @@
+require "rails"
+require "dm-rails"
+require "dm-types"
+require "dm-validations"
+require "dm-migrations"
+require "dm-constraints"
+require "dm-transactions"
+require "dm-timestamps"
+require "will_paginate"
+require "haml-rails"
+require "mambo-authentication"
+
 require "sms/version"
 require "sms/engine"
 
