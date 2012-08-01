@@ -1,4 +1,4 @@
 module Sms
-  VERSION = "0.0.16"
+  VERSION = "0.0.17"
   DM_VERSION = "~> 1.2"
 end
