@@ -10,9 +10,6 @@ require "will_paginate"
 require "haml-rails"
 require "mambo-authentication"
 
-require "sms/version"
-require "sms/engine"
-
 module Sms
 	# constants
 	PHONE_NUMBER_LENGTH = 10
@@ -23,3 +20,8 @@ module Sms
 	TEMPLATE_DESC_LENGTH = 64
 	MESSAGE_TEMPLATE_LENGTH = 200
 end
+
+require "sms/version"
+require "sms/engine"
+
+require "models/sms/subscriber"

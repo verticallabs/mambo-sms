@@ -28,7 +28,28 @@ module Sms
 		end
 
 		#
-		def create_outgoing_message(body)
+		def receive_message(from, body, sid, created_at = nil)
+			messages.create(
+				:phone_number => phone_number,
+				:body => body,
+				:status => :received,
+				:sid => sid,
+				:created_at => created_at
+			)
+		end
+
+		#
+		def send_message_using_template(name, params = {})
+			message_template = MessageTemplate.get_by_name(name)
+			messages.create(
+				:phone_number => phone_number,
+				:body => message_template.body % params,
+				:status => :sending
+			)
+		end
+
+		#
+		def send_message(body)
 			messages.create(
 				:phone_number => phone_number,
 				:body => body,
@@ -47,7 +68,7 @@ module Sms
 		end
 
 		#
-		def self.create_by_phone_number(phone_number)
+		def self.create_for(phone_number)
 			create(:phone_number => phone_number)
 		end
 	end

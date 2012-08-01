@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+$:.push File.expand_path("../app", __FILE__)
 require "sms/version"
 
 Gem::Specification.new do |s|

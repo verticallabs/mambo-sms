@@ -22,6 +22,37 @@ module Sms
 		belongs_to(:parent, Message, :required => false)
 		has(n, :children, Message, :child_key => :parent_id, :constraint => :destroy)
 
+		# instance methods
+
+		#
+		def receive_reply(body, sid, created_at = nil)
+			children.create(
+				:subscriber => subscriber,
+				:phone_number => phone_number,
+				:body => body,
+				:status => :received,
+				:sid => sid,
+				:created_at => created_at
+			)
+		end
+
+		#
+		def send_reply(body)
+			children.create(
+				:subscriber => subscriber,
+				:phone_number => phone_number,
+				:body => body,
+				:status => :sending
+			)
+		end
+
+		#
+		def save_status(status, sid)
+			self.status = status
+			self.sid = sid
+			save
+		end
+
 		# class methods
 		#
 		def self.sent
@@ -53,69 +84,24 @@ module Sms
 			first(:sid => sid)
 		end
 
-		# receive a message
-		def self.receive_from_phone_number(phone_number, body, sid, date = nil)
-			subscriber = Subscriber.first_by_phone_number(phone_number)
-
-			if subscriber.nil?
-				create_from_phone_number(phone_number, body, sid, date)
-			else
-				create_from_subscriber(subscriber, body, sid, date)
-			end
-		end
-
-		# update the status of a message
-		def self.update_status_by_id(id, status, sid)
-			message = Message.get!(id)
-			message.status = status
-			message.sid = sid
-			message.save
-			message
+		#
+		def self.send_message(phone_number, body)
+			create(
+				:phone_number => phone_number,
+				:body => body,
+				:status => :sending
+			)
 		end
 
 		#
-		def self.create_reply(message, body)
-			reply = message.children.new
-			reply.subscriber = message.subscriber
-			reply.phone_number = message.phone_number
-			reply.body = body
-			reply.status = :sending
-			reply.save
-			reply
-		end
-
-		#
-		def self.create_to_phone_number(phone_number, body)
-			message = Message.new
-			message.phone_number = phone_number
-			message.body = body
-			message.status = :sending
-			message.save
-			message
-		end
-
-		# create message from phone number
-		def self.create_from_phone_number(phone_number, body, sid, date)
-			message = Message.new
-			message.phone_number = phone_number
-			message.body = body
-			message.status = :received
-			message.sid = sid
-			message.created_at = date
-			message.save
-			message
-		end
-
-		# create message from subscriber with body and sid
-		def self.create_from_subscriber(subscriber, body, sid, date)
-			message = subscriber.messages.new
-			message.phone_number = subscriber.phone_number
-			message.body = body
-			message.status = :received
-			message.sid = sid
-			message.created_at = date
-			message.save
-			message
+		def self.receive_message(phone_number, body, sid, created_at = nil)
+			create(
+				:phone_number => phone_number,
+				:body => body,
+				:status => :received,
+				:sid => sid,
+				:created_at => created_at
+			)
 		end
 	end
 end
