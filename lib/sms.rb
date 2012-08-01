@@ -23,5 +23,3 @@ end
 
 require "sms/version"
 require "sms/engine"
-
-require "models/sms/subscriber"
