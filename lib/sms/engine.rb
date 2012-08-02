@@ -2,7 +2,8 @@ module Sms
   class Engine < ::Rails::Engine
     isolate_namespace Sms
 
-    initializer "models" do
+		#
+    config.before_initialize do
       require "sms/message"
       require "sms/subscriber"
       require "sms/message_template"
