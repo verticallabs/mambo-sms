@@ -5,9 +5,6 @@ require "haml-rails"
 require "mambo-support"
 require "mambo-authentication"
 
-require "sms/version"
-require "sms/engine"
-
 module Sms
 	# constants
 	PHONE_NUMBER_LENGTH = 10
@@ -20,3 +17,6 @@ module Sms
 	MESSAGE_TEMPLATE_DESC_MAX = 64
 	MESSAGE_TEMPLATE_BODY_MAX = 200
 end
+
+require "sms/version"
+require "sms/engine"

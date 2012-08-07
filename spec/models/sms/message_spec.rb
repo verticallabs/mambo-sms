@@ -18,6 +18,28 @@ describe Sms::Message do
 
 	#
 	describe "methods" do
+		it "recieves reply" do
+			body = "body"
+			sid = "sid"
+			message = create(:message_with_subscriber)
+			reply = message.receive_reply(body, sid, DateTime.now)
+			reply.should_not be_nil
+			reply.subscriber.should == message.subscriber
+			reply.phone_number.should == message.phone_number
+			reply.body.should == body
+			reply.sid.should == sid
+		end
+
+		it "sends reply" do
+			body = "body"
+			message = create(:message_with_subscriber)
+			reply = message.send_reply(body)
+			reply.should_not be_nil
+			reply.subscriber.should == message.subscriber
+			reply.phone_number.should == message.phone_number
+			reply.body.should == body
+		end
+
 		#
 		it "filter -> sent" do
 			create(:message, :status => :sent)
