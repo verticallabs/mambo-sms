@@ -53,7 +53,7 @@ module Sms
 
 		# class methods
 		def self.active
-			all(:active => true)
+			where(:active => true)
 		end
 
 		#
@@ -67,3 +67,4 @@ module Sms
 		end
 	end
 end
+
