@@ -17,10 +17,10 @@ describe Sms::Subscriber do
 
 	describe "methods" do
 		#
-		it 'should create an outgoing message properly' do
+		it 'should send message' do
 			body = 'test'
 			subscriber = create(:subscriber)
-			m = subscriber.create_outgoing_message(body)
+			m = subscriber.send_message(body)
 
 			m.phone_number.should == subscriber.phone_number
 			m.body.should == body

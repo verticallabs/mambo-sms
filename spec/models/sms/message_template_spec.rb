@@ -45,27 +45,5 @@ describe Sms::MessageTemplate do
 			mt = Sms::MessageTemplate.get_by_name(name)
 			mt.should_not be_nil
 		end
-
-		#
-		def self.create_by(params)
-			attributes = attributes_for(:message_template)
-			mt = Sms::MessageTemplate.create_by(attributes)
-			mt.should be_valid
-		end
-
-		#
-		def self.update_by_id(id, params)
-			name = "test"
-			mt = create(:message_template)
-			mt = Sms::MessageTemplate.update_by_id(mt.id, :name => name)
-			mt.should be_valid
-			mt.name.should == name
-		end
-
-		#
-		def self.destroy_by_id(id)
-			mt = create(:message_template)
-			Sms::MessageTemplate.destroy_by_id(mt.id)
-		end
 	end
 end

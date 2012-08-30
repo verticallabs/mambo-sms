@@ -5,13 +5,15 @@ module Sms
 		layout("layouts/private/sms")
 
     before_filter(:only => :index) do
-    	page_param(:message_templates)
-      sort_param(:message_templates, :name, :asc)
+    	page_param(:message_templates, 20)
+      sort_param(:message_templates, "", :name, :asc)
     end
 
 		#
 		def index
-			@message_templates = MessageTemplate.sorted_by(@sort_key, @sort_order).paginate(:page => @page, :per_page => 20)
+			@message_templates = MessageTemplate
+				.sorted_by(@sort_attribute, @sort_order)
+				.paginate(:page => @page, :per_page => @per_page)
 			respond_with(@message_templates)
 		end
 
@@ -24,13 +26,15 @@ module Sms
 		#
 		def create
 			begin
-				message_template = params[:message_template]
-				@message_template = MessageTemplate.create_by(message_template)
-				flash[:notice] = t(:created)
-				respond_with(@message_template, :location => message_templates_path)
+				MessageTemplate.transaction do
+					message_template = params[:message_template]
+					@message_template = MessageTemplate.create!(message_template)
+					flash[:notice] = t(:created)
+					respond_with(@message_template, :location => message_templates_path)
+				end
 
 			rescue ActiveRecord::RecordInvalid => error
-				@message_template = error.resource
+				@message_template = error.record
 				respond_with(@message_template) do |format|
 					format.html {	render(:new) }
 				end
@@ -46,13 +50,17 @@ module Sms
 		#
 		def update
 			begin
-				message_template = params[:message_template]
-				@message_template = MessageTemplate.update_by_id(params[:id], message_template)
-				flash[:notice] = t(:updated)
-				respond_with(@message_template, :location => message_templates_path)
+				MessageTemplate.transaction do
+					message_template = params[:message_template]
+					@message_template = MessageTemplate.find(params[:id])
+					@message_template.attributes = message_template
+					@message_template.save!
+					flash[:notice] = t(:updated)
+					respond_with(@message_template, :location => message_templates_path)
+				end
 
 			rescue ActiveRecord::RecordInvalid => error
-				@message_template = error.resource
+				@message_template = error.record
 				respond_with(@message_template) do |format|
 					format.html {	render(:edit) }
 				end
@@ -61,9 +69,12 @@ module Sms
 
 		#
 		def destroy
-			@message_template = MessageTemplate.destroy_by_id(params[:id])
-			flash[:notice] = t(:destroyed)
-			respond_with(@message_template, :location => message_templates_path)
+			MessageTemplate.transaction do
+				@message_template = MessageTemplate.find(params[:id])
+				@message_template.destroy
+				flash[:notice] = t(:destroyed)
+				respond_with(@message_template, :location => message_templates_path)
+			end
 		end
 
 	private
