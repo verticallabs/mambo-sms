@@ -8,8 +8,6 @@ source "http://rubygems.org"
 # Specify your gem's dependencies in sms.gemspec
 gemspec
 
-gem "mmcopyrights", :git => "https://github.com/verticallabs/mmcopyrights.git"
-
 HOME_PATH = File.expand_path("~/mambo/gems")
 DEV_GIT = "http://dev.verticallabs.ca/git/mambo/gems"
 
