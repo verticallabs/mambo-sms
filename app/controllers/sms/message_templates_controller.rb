@@ -10,7 +10,7 @@ module Sms
 
     before_filter(:only => :index) do
     	page_param(:message_templates, 20)
-      sort_param(:message_templates, "", :name, :asc)
+      sort_param(:message_templates, :name, :asc)
     end
 
 		#
