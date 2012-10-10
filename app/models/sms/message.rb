@@ -45,43 +45,43 @@ module Sms
 		def save_status(status, sid)
 			self.status = status
 			self.sid = sid
-			save
+			save!
 		end
 
 		# class methods
 		#
 		def self.sent
-			where(:status => :sent)
+			where{status == :sent.to_s}
 		end
 
 		#
 		def self.received
-			where(:status => :received)
+			where{status == :received.to_s}
 		end
 
 		#
 		def self.read
-			where(:status => :read)
+			where{status == :read.to_s}
 		end
 
 		#
 		def self.received_or_read
-			where(:status => [:received, :read])
+			where{status >> [:received.to_s, :read.to_s]}
 		end
 
 		#
 		def self.sorted_by(key, order)
-			order("#{key} #{order.to_s.upcase}")
+			order{__send__(key).__send__(order)}
 		end
 
 		#
 		def self.first_by_sid(sid)
-			where(:sid => sid).first
+			where{sid == sid}.first
 		end
 
 		#
 		def self.send_message(phone_number, body)
-			create(
+			create!(
 				:phone_number => phone_number,
 				:body => body,
 				:status => :sending
@@ -90,7 +90,7 @@ module Sms
 
 		#
 		def self.receive_message(phone_number, body, sid, created_at = nil)
-			create(
+			create!(
 				:phone_number => phone_number,
 				:body => body,
 				:status => :received,

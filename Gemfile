@@ -2,7 +2,7 @@
 #- License, v. 2.0. If a copy of the MPL was not distributed with this
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-source "https://vertical:g3m4cc3ss@gems.verticallabs.ca"
+source "http://gems.verticallabs.ca"
 source "http://rubygems.org"
 
 # Specify your gem's dependencies in sms.gemspec

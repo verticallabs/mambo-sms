@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "enumerated_attribute"
 	s.add_runtime_dependency "will_paginate"
 	s.add_runtime_dependency "haml-rails"
+	s.add_runtime_dependency "squeel"
 	s.add_runtime_dependency "mambo-support"
 	s.add_runtime_dependency "mambo-authentication"
 

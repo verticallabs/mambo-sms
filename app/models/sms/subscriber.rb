@@ -16,17 +16,19 @@ module Sms
 		# instance methods
 		#
 		def disable
-			update(:active => false)
+			self.active = false
+			save!
 		end
 
 		#
 		def enable
-			update(:active => true)
+			self.active = true
+			save!
 		end
 
 		#
 		def receive_message(from, body, sid, created_at = nil)
-			messages.create(
+			messages.create!(
 				:phone_number => phone_number,
 				:body => body,
 				:status => :received,
@@ -38,7 +40,7 @@ module Sms
 		#
 		def send_message_using_template(name, params = {})
 			message_template = MessageTemplate.get_by_name(name)
-			messages.create(
+			messages.create!(
 				:phone_number => phone_number,
 				:body => message_template.body % params,
 				:status => :sending
@@ -47,7 +49,7 @@ module Sms
 
 		#
 		def send_message(body)
-			messages.create(
+			messages.create!(
 				:phone_number => phone_number,
 				:body => body,
 				:status => :sending
@@ -56,17 +58,17 @@ module Sms
 
 		# class methods
 		def self.active
-			where(:active => true)
+			where{active == true}
 		end
 
 		#
 		def self.first_by_phone_number(phone_number)
-			first(:phone_number => phone_number)
+			where{phone_number == phone_number}.first
 		end
 
 		#
 		def self.create_for(phone_number)
-			create(:phone_number => phone_number)
+			create!(:phone_number => phone_number)
 		end
 	end
 end
