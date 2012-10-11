@@ -1,4 +1,4 @@
-#-  -*- encoding : utf-8 -*- 
+#-  -*- encoding : utf-8 -*-
 #- This Source Code Form is subject to the terms of the Mozilla Public
 #- License, v. 2.0. If a copy of the MPL was not distributed with this
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,11 +9,17 @@ module Sms
 		attr_accessible(:active, :phone_number)
 
 		# validations
-		validates(:active, :inclusion => {:in => [true, false]})
-		validates(:phone_number, {:uniqueness => true, :presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/})
+		validates(:active,
+			:inclusion => {:in => [true, false]})
+		validates(:phone_number,
+			:uniqueness => true,
+			:presence => true,
+			:length => {:in => 10..12},
+			:format => /^\d*$/)
 
 		# associations
-		has_many(:messages, :dependent => :destroy)
+		has_many(:messages,
+			:dependent => :destroy)
 
 		# instance methods
 		#

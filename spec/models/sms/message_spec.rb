@@ -1,4 +1,4 @@
-#-  -*- encoding : utf-8 -*- 
+#-  -*- encoding : utf-8 -*-
 #- This Source Code Form is subject to the terms of the Mozilla Public
 #- License, v. 2.0. If a copy of the MPL was not distributed with this
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,7 +10,7 @@ describe Sms::Message do
 	describe "validations" do
 		subject { create(:message) }
 		it { should validate_presence_of(:phone_number) }
-		it { should ensure_length_of(:body).is_at_most(Sms::MESSAGE_BODY_MAX) }
+		it { should ensure_length_of(:body).is_at_most(160) }
 	end
 
 	#

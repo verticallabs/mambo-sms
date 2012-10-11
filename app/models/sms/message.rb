@@ -1,4 +1,4 @@
-#-  -*- encoding : utf-8 -*- 
+#-  -*- encoding : utf-8 -*-
 #- This Source Code Form is subject to the terms of the Mozilla Public
 #- License, v. 2.0. If a copy of the MPL was not distributed with this
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,16 +7,26 @@ module Sms
 	class Message < ActiveRecord::Base
 		# attributes
 		attr_accessible(:subscriber_id, :status, :phone_number, :body, :sid, :created_at)
-		enum_attr(:status, MESSAGE_STATUSES, :init => :unknown, :nil => false)
+
+		STATUSES = [:unknown, :received, :sending, :sent, :failed, :read]
+		enum_attr(:status, STATUSES, :init => :unknown, :nil => false)
 
 		# validations
-		validates(:phone_number, {:presence => true, :length => {:is => PHONE_NUMBER_LENGTH}, :format => /^\d*$/})
-		validates(:body, :length => {:maximum => MESSAGE_BODY_MAX})
+		validates(:phone_number,
+			:presence => true,
+			:length => {:in => 10..12},
+			:format => /^\d*$/)
+		validates(:body,
+			:length => {:maximum => 160})
 
 		# associations
 		belongs_to(:subscriber)
-		belongs_to(:parent, {:class_name => "Message", :dependent => :destroy})
-		has_many(:children, {:class_name => "Message", :foreign_key => :parent_id, :dependent => :destroy})
+		belongs_to(:parent,
+			:class_name => "Message")
+		has_many(:children,
+			:class_name => "Message",
+			:foreign_key => :parent_id,
+			:dependent => :destroy)
 
 		# instance methods
 
@@ -76,8 +86,8 @@ module Sms
 		end
 
 		#
-		def self.first_by_sid(sid)
-			where{sid == sid}.first
+		def self.first_by_sid(value)
+			where{sid == value}.first
 		end
 
 		#
