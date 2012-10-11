@@ -24,11 +24,6 @@ module Sms
 		end
 
 		#
-		def self.sorted_by(attribute, order)
-			order{__send__(key).__send__(order)}
-		end
-
-		#
 		def self.get_by_name(name)
 			where{name == name.to_s}.first || raise("#{name} not_found")
 		end
