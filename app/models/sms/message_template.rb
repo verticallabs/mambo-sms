@@ -34,7 +34,7 @@ module Sms
 
 		#
 		def self.get_by_name(value)
-			where{name == value}.first || raise("#{value} not_found")
+			where{name == value.to_s}.first || raise("#{value} not_found")
 		end
 	end
 end

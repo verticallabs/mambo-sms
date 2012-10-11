@@ -23,13 +23,13 @@ module Sms
 
 		# instance methods
 		#
-		def disable
+		def activate
 			self.active = false
 			save!
 		end
 
 		#
-		def enable
+		def deactivate
 			self.active = true
 			save!
 		end
