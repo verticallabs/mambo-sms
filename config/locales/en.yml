@@ -8,6 +8,7 @@ en:
       "sms/message_template":
         desc: "Description"
       "sms/subscriber":
+        active: "Subscribed"
         phone_number: "Phone Number"
 
   sms:
