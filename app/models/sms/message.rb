@@ -81,13 +81,8 @@ module Sms
 		end
 
 		#
-		def self.sorted_by(key, order)
-			order{__send__(key).__send__(order)}
-		end
-
-		#
 		def self.first_by_sid(value)
-			where{sid == value}.first
+			where{sid == value.to_s}.first
 		end
 
 		#

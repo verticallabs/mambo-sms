@@ -35,7 +35,7 @@ module Sms
 		end
 
 		#
-		def receive_message(from, body, sid, created_at = nil)
+		def receive_message(body, sid, created_at = nil)
 			messages.create!(
 				:phone_number => phone_number,
 				:body => body,
@@ -70,8 +70,8 @@ module Sms
 		end
 
 		#
-		def self.first_by_phone_number(phone_number)
-			where{phone_number == phone_number}.first
+		def self.first_by_phone_number(value)
+			where{phone_number == value.to_s}.first
 		end
 
 		#
