@@ -50,5 +50,11 @@ describe Sms::MessageTemplate do
 			mt = Sms::MessageTemplate.get_by_name(name)
 			mt.should_not be_nil
 		end
+
+		it "creates csv data" do
+			3.times { create(:message_template) }
+			subject.to_csv.should be_a(String)
+			(subject.to_csv.split("\n").size-1).should == subject.all.size
+		end
 	end
 end
