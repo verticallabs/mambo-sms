@@ -8,6 +8,7 @@
 
 - content_for(:actions) do
   = link_to(t(".add_link"), new_message_template_path, :class => "button")
+  = link_to("Download CSV", {:action => "index", :format => "csv"},:id => "download_csv", :class => "button" )
 
 - if @message_templates.empty?
   = t(".no_message_templates")

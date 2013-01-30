@@ -19,7 +19,11 @@ module Sms
 			@message_templates = MessageTemplate
 				.sorted_by(@sort_attribute, @sort_order)
 				.paginate(:page => @page, :per_page => @per_page)
-			respond_with(@message_templates)
+			# respond_with(@message_templates)
+			respond_to do |format|
+				format.html { @message_templates }
+      	format.csv  { send_data MessageTemplate.to_csv }
+			end
 		end
 
 		#
