@@ -22,7 +22,7 @@ module Sms
 			# respond_with(@message_templates)
 			respond_to do |format|
 				format.html { @message_templates }
-      	format.csv  { send_data MessageTemplate.to_csv }
+      	format.csv  { send_data Sms::MessageTemplate.to_csv }
 			end
 		end
 
