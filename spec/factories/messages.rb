@@ -4,7 +4,7 @@
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 FactoryGirl.define do
-	#
+  #
   factory(:message, :class => Sms::Message) do
     status        { Support::Randomizer.array(Sms::MESSAGE_STATUSES) }
     phone_number  { Support::Randomizer.integer(Sms::PHONE_NUMBER_LENGTH) }
@@ -12,7 +12,7 @@ FactoryGirl.define do
     sid           { Support::Randomizer.string(Sms::MESSAGE_SID_LENGTH) }
 
     factory(:message_with_subscriber) do
-    	subscriber
+      subscriber
     end
   end
 end

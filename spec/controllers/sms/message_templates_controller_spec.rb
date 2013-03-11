@@ -11,76 +11,76 @@ describe Sms::MessageTemplatesController do
       controller.stub(:authenticated_user => build(:user))
     end
 
-		#
-		context "index" do
-			before do
-				create(:message_template)
-				get(:index, :use_route => :sms)
-			end
+    #
+    context "index" do
+      before do
+        create(:message_template)
+        get(:index, :use_route => :sms)
+      end
 
-			it { should assign_to(:message_templates) }
-			it { should respond_with(:success) }
-			it { should render_template(:index) }
-		end
+      it { should assign_to(:message_templates) }
+      it { should respond_with(:success) }
+      it { should render_template(:index) }
+    end
 
-		#
-		context "new" do
-			before do
-				get(:new, :use_route => :sms)
-			end
+    #
+    context "new" do
+      before do
+        get(:new, :use_route => :sms)
+      end
 
-			it { should assign_to(:message_template) }
-			it { should respond_with(:success) }
-			it { should render_template(:new) }
-		end
+      it { should assign_to(:message_template) }
+      it { should respond_with(:success) }
+      it { should render_template(:new) }
+    end
 
-		#
-		context "create" do
-			before do
-				message_template_attributes = attributes_for(:message_template)
-				post(:create, :use_route => :sms, :message_template => message_template_attributes)
-			end
+    #
+    context "create" do
+      before do
+        message_template_attributes = attributes_for(:message_template)
+        post(:create, :use_route => :sms, :message_template => message_template_attributes)
+      end
 
-			it { should assign_to(:message_template) }
-			it { should respond_with(:redirect) }
-			it { should set_the_flash }
-		end
+      it { should assign_to(:message_template) }
+      it { should respond_with(:redirect) }
+      it { should set_the_flash }
+    end
 
-		#
-		context "edit" do
-			before do
-				message_template = create(:message_template)
-				get(:edit, :use_route => :sms, :id => message_template.id)
-			end
+    #
+    context "edit" do
+      before do
+        message_template = create(:message_template)
+        get(:edit, :use_route => :sms, :id => message_template.id)
+      end
 
-			it { should assign_to(:message_template) }
-			it { should respond_with(:success) }
-			it { should render_template(:edit) }
-		end
+      it { should assign_to(:message_template) }
+      it { should respond_with(:success) }
+      it { should render_template(:edit) }
+    end
 
-		#
-		context "update" do
-			before do
-				message_template = create(:message_template)
-				message_template_attributes = attributes_for(:message_template)
-				put(:update, :use_route => :sms, :id => message_template.id, :message_template => message_template_attributes)
-			end
+    #
+    context "update" do
+      before do
+        message_template = create(:message_template)
+        message_template_attributes = attributes_for(:message_template)
+        put(:update, :use_route => :sms, :id => message_template.id, :message_template => message_template_attributes)
+      end
 
-			it { should assign_to(:message_template) }
-			it { should respond_with(:redirect) }
-			it { should set_the_flash }
-		end
+      it { should assign_to(:message_template) }
+      it { should respond_with(:redirect) }
+      it { should set_the_flash }
+    end
 
-		#
-		context "destroy" do
-			before do
-				message_template = create(:message_template)
-				delete(:destroy, :use_route => :sms, :id => message_template.id)
-			end
+    #
+    context "destroy" do
+      before do
+        message_template = create(:message_template)
+        delete(:destroy, :use_route => :sms, :id => message_template.id)
+      end
 
-			it { should assign_to(:message_template) }
-			it { should respond_with(:redirect) }
-			it { should set_the_flash }
-		end
+      it { should assign_to(:message_template) }
+      it { should respond_with(:redirect) }
+      it { should set_the_flash }
+    end
   end
 end

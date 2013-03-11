@@ -4,5 +4,5 @@
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Sms::Engine.routes.draw do
-	resources(:message_templates, :only => [:index, :new, :create, :edit, :update, :destroy])
+  resources(:message_templates, :only => [:index, :new, :create, :edit, :update, :destroy])
 end

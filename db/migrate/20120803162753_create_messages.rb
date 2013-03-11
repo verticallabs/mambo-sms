@@ -7,17 +7,17 @@ class CreateMessages < ActiveRecord::Migration
   #
   def change
     create_table(:sms_messages) do |t|
-    	t.references(:subscriber)
-    	t.references(:parent)
-    	t.enum(:status, :null => false)
+      t.references(:subscriber)
+      t.references(:parent)
+      t.enum(:status, :null => false)
       t.string(:phone_number, {:null => false, :limit => 12})
       t.string(:body, :limit => 160)
       t.string(:sid, :limit => 34)
       t.timestamps
     end
 
-		add_index(:sms_messages, :subscriber_id)
-		add_index(:sms_messages, :parent_id)
+    add_index(:sms_messages, :subscriber_id)
+    add_index(:sms_messages, :parent_id)
     add_index(:sms_messages, :status)
     add_index(:sms_messages, :phone_number)
     add_index(:sms_messages, :sid)

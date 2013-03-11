@@ -4,79 +4,79 @@
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 module Sms
-	class Subscriber < ActiveRecord::Base
-		# attributes
-		attr_accessible(:active, :phone_number)
+  class Subscriber < ActiveRecord::Base
+    # attributes
+    attr_accessible(:active, :phone_number)
 
-		# validations
-		validates(:active,
-			:inclusion => {:in => [true, false]})
-		validates(:phone_number,
-			:uniqueness => true,
-			:presence => true,
-			:length => {:in => 10..12},
-			:format => /^\d*$/)
+    # validations
+    validates(:active,
+      :inclusion => {:in => [true, false]})
+    validates(:phone_number,
+      :uniqueness => true,
+      :presence => true,
+      :length => {:in => 10..12},
+      :format => /^\d*$/)
 
-		# associations
-		has_many(:messages,
-			:dependent => :destroy)
+    # associations
+    has_many(:messages,
+      :dependent => :destroy)
 
-		# instance methods
-		#
-		def activate
-			self.active = false
-			save!
-		end
+    # instance methods
+    #
+    def activate
+      self.active = false
+      save!
+    end
 
-		#
-		def deactivate
-			self.active = true
-			save!
-		end
+    #
+    def deactivate
+      self.active = true
+      save!
+    end
 
-		#
-		def receive_message(body, sid, created_at = nil)
-			messages.create!(
-				:phone_number => phone_number,
-				:body => body,
-				:status => :received,
-				:sid => sid,
-				:created_at => created_at
-			)
-		end
+    #
+    def receive_message(body, sid, created_at = nil)
+      messages.create!(
+        :phone_number => phone_number,
+        :body => body,
+        :status => :received,
+        :sid => sid,
+        :created_at => created_at
+      )
+    end
 
-		#
-		def send_message_using_template(name, params = {})
-			message_template = MessageTemplate.get_by_name(name)
-			messages.create!(
-				:phone_number => phone_number,
-				:body => message_template.body % params,
-				:status => :sending
-			)
-		end
+    #
+    def send_message_using_template(name, params = {})
+      message_template = MessageTemplate.get_by_name(name)
+      messages.create!(
+        :phone_number => phone_number,
+        :body => message_template.body % params,
+        :status => :sending
+      )
+    end
 
-		#
-		def send_message(body)
-			messages.create!(
-				:phone_number => phone_number,
-				:body => body,
-				:status => :sending
-			)
-		end
+    #
+    def send_message(body)
+      messages.create!(
+        :phone_number => phone_number,
+        :body => body,
+        :status => :sending
+      )
+    end
 
-		# class methods
-		def self.active
-			where{active == true}
-		end
+    # class methods
+    def self.active
+      where{active == true}
+    end
 
-		#
-		def self.first_by_phone_number(value)
-			where{phone_number == value.to_s}.first
-		end
+    #
+    def self.first_by_phone_number(value)
+      where{phone_number == value.to_s}.first
+    end
 
-		#
-		def self.create_for(phone_number)
-			create!(:phone_number => phone_number)
-		end
-	end
+    #
+    def self.create_for(phone_number)
+      create!(:phone_number => phone_number)
+    end
+  end
 end

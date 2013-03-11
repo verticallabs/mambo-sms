@@ -4,7 +4,7 @@
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 FactoryGirl.define do
-	#
+  #
   factory(:user, :class => Authentication::User) do
     name          { Support::Randomizer.string(5) }
     email_address { "#{Support::Randomizer.string(5)}@#{Support::Randomizer.string(5)}.com" }

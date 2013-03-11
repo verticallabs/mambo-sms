@@ -6,13 +6,13 @@
 require 'spec_helper'
 
 describe "with message templates routes" do
-	before(:each) do
-		# http://stackoverflow.com/questions/7691594/how-to-test-routes-in-a-rails-3-1-mountable-engine
-		@routes = Sms::Engine.routes
-	end
+  before(:each) do
+    # http://stackoverflow.com/questions/7691594/how-to-test-routes-in-a-rails-3-1-mountable-engine
+    @routes = Sms::Engine.routes
+  end
 
   it "routes to index" do
-  	{ :get => '/message_templates' }.should route_to(:controller => 'sms/message_templates', :action => 'index')
+    { :get => '/message_templates' }.should route_to(:controller => 'sms/message_templates', :action => 'index')
   end
 
   it "routes to new" do

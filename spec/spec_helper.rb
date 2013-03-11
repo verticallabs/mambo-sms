@@ -32,7 +32,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-  	Rails.logger.debug(example.full_description)
+    Rails.logger.debug(example.full_description)
     DatabaseCleaner.start
   end
 

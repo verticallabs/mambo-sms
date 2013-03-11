@@ -4,6 +4,6 @@
 #- file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 module Sms
-	class BaseController < ::ActionController::Base
-	end
+  class BaseController < ::ActionController::Base
+  end
 end

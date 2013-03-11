@@ -8,7 +8,7 @@ class CreateMessageTemplates < ActiveRecord::Migration
   #
   def change
     create_table(:sms_message_templates) do |t|
-    	t.boolean(:system, :null => false, :default => false)
+      t.boolean(:system, :null => false, :default => false)
       t.string(:name, :limit => Sms::MESSAGE_TEMPLATE_NAME_MAX)
       t.string(:desc, :null => false, :limit => Sms::MESSAGE_TEMPLATE_DESC_MAX)
       t.string(:body, :null => false, :limit => Sms::MESSAGE_TEMPLATE_BODY_MAX)
