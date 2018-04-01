@@ -48,7 +48,7 @@ module Sms
         :subscriber_id => subscriber_id,
         :phone_number => phone_number,
         :body => body,
-        :status => :sending
+        :status => :sent
       )
     end
 
